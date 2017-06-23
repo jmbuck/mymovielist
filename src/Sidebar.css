@@ -1,0 +1,8 @@
+.Sidebar {
+    width: 7rem;
+    background-color: #141D4A;
+    padding: 0.5rem 0; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
