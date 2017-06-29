@@ -12,16 +12,16 @@ const Sidebar = () =>
             </Link>
               <div className="lists">
                 <Link to="/complete" className="complete">
-                  <button className="complete">Completed Movies</button>
+                  <button type="button" className="complete">Completed Movies</button>
                 </Link>
                 <Link to="/downloaded" className="downloaded">
-                  <button className="downloaded">Downloaded Movies</button>
+                  <button type="button" className="downloaded">Downloaded Movies</button>
                 </Link>
                 <Link to="/ptw" className="downloaded">
-                  <button className="ptw">Plan To Watch</button>
+                  <button type="button" className="ptw">Plan To Watch</button>
                 </Link>
                 <Link to="/dropped" className="dropped">
-                  <button className="dropped">Dropped Movies</button>
+                  <button type="button" className="dropped">Dropped Movies</button>
                 </Link>
               </div>
           </div>

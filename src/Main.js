@@ -6,14 +6,14 @@ import Sidebar from './Sidebar'
 import MovieForm from './MovieForm'
 import MovieList from './MovieList'
 
-const Main = () => 
+const Main = (props) => 
 {
     return (
       <div className="Main">
         <Sidebar />
         
         <Switch>
-            <Route path="/new" render={(navProps) => <MovieForm {...navProps} />}/>
+            <Route path="/new" render={(navProps) => <MovieForm {...props} {...navProps} />}/>
             <Route path="/complete" render={(navProps) => <MovieList list="complete" {...navProps} />}/>
             <Route path="/downloaded" render={(navProps) => <MovieList list="downloaded" {...navProps} />}/>
             <Route path="/ptw" render={(navProps) => <MovieList list="ptw" {...navProps} />}/>
