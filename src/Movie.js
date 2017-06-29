@@ -5,7 +5,10 @@ import './Movie.css';
 class Movie extends Component {
   render() {
     return (
-        <li>{this.props.movie.title}</li>
+        <li>
+            <span>Title - {this.props.movie.title} </span>
+            <span>Overview - {this.props.movie.overview}</span>
+        </li>
     )
   }
 }
