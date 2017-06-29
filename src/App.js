@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom'
 
 import './App.css';
 import Main from './Main'
@@ -16,11 +15,11 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.syncMovies();
+    this.syncMovies()
   }
 
   syncMovies = () => {
-    this.ref = base.syncState(
+   this.ref = base.syncState(
       `movies`, 
       {
         context: this,
@@ -29,13 +28,18 @@ class App extends Component {
       )
    }
   
-  addMovie = (movie) => {
+  addMovie = (category, movie) => {
     if(!movie.id) {
       movie.id = Date.now()
     }
-    console.log('Title: '+movie.title)
+
     const movies = {...this.state.movies}
-    movies[`movie-${movie.id}`] = movie
+        
+    if(!movies[category]) {
+      movies[category] = {}
+    }
+
+    movies[category][`movie-${movie.id}`] = movie
     this.setState({ movies })
   }
 

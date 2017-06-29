@@ -6,7 +6,11 @@ class MovieForm extends Component {
   
     handleSubmit = (ev) => {
         ev.preventDefault()
-        this.props.addMovie({title: ev.target.title.value})
+        const category = ev.target.category.value
+        if(category) {
+            this.props.addMovie(category, {title: ev.target.title.value})
+            ev.target.reset()
+        }
     }
 
     render() {
@@ -14,6 +18,13 @@ class MovieForm extends Component {
             <div className="MovieForm">
                 <form onSubmit={this.handleSubmit}>
                     <input type="text" placeholder="Movie title" name="title"/>
+                    <select name="category">
+                        <option value="">-- Category --</option>
+                        <option value="completed">Completed</option>
+                        <option value="downloaded">Downloaded</option>
+                        <option value="ptw">Plan to Watch</option>
+                        <option value="dropped">Dropped</option>
+                    </select>
                     <button type="submit">Add Movie</button>
                 </form>
             </div>
