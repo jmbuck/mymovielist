@@ -6,8 +6,8 @@ class Movie extends Component {
   render() {
     return (
         <li>
-            <span>Title - {this.props.movie.title} </span>
-            <span>Overview - {this.props.movie.overview}</span>
+            <div>Title - {this.props.movie.title}</div>
+            <div>Overview - {this.props.movie.overview}</div>
         </li>
     )
   }

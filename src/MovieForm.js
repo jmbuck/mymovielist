@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 
-import './MovieForm.css';
+import './MovieForm.css'
+import MovieResults from './MovieResults'
 
 class MovieForm extends Component {
   
     handleSubmit = (ev) => {
         ev.preventDefault()
-        const category = ev.target.category.value
-        if(category) {
-            this.props.addMovie(category, {title: ev.target.title.value})
-            ev.target.reset()
-        }
+        const category = ev.target.category.value 
+        this.props.history.push(`/new/${ev.target.title.value}`)
+        ev.target.reset()
     }
 
     render() {
@@ -25,8 +25,9 @@ class MovieForm extends Component {
                         <option value="ptw">Plan to Watch</option>
                         <option value="dropped">Dropped</option>
                     </select>
-                    <button type="submit">Add Movie</button>
+                    <button type="submit">Find Movie</button>
                 </form>
+                <Route path="/new/:query" render={(navProps) => <MovieResults {...this.props} {...navProps} />}/>
             </div>
         );
     }
