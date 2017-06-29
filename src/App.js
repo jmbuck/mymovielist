@@ -46,7 +46,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Main addMovie={this.addMovie}/>
+        <Main movies={this.state.movies} addMovie={this.addMovie}/>
       </div>
     );
   }

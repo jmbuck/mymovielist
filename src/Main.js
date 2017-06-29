@@ -14,10 +14,10 @@ const Main = (props) =>
         
         <Switch>
             <Route path="/new" render={(navProps) => <MovieForm {...props} {...navProps} />}/>
-            <Route path="/complete" render={(navProps) => <MovieList list="complete" {...navProps} />}/>
-            <Route path="/downloaded" render={(navProps) => <MovieList list="downloaded" {...navProps} />}/>
-            <Route path="/ptw" render={(navProps) => <MovieList list="ptw" {...navProps} />}/>
-            <Route path="/dropped" render={(navProps) => <MovieList list="dropped" {...navProps} />}/>
+            <Route path="/completed" render={(navProps) => <MovieList movies={props.movies} list="completed" {...navProps} />}/>
+            <Route path="/downloaded" render={(navProps) => <MovieList movies={props.movies} list="downloaded" {...navProps} />}/>
+            <Route path="/ptw" render={(navProps) => <MovieList movies={props.movies} list="ptw" {...navProps} />}/>
+            <Route path="/dropped" render={(navProps) => <MovieList movies={props.movies} list="dropped" {...navProps} />}/>
         </Switch>
       </div>
     )
