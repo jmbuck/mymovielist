@@ -9,7 +9,6 @@ class MovieForm extends Component {
     handleSubmit = (ev) => {
         ev.preventDefault()
         const query = encodeURI(ev.target.title.value)
-        console.log(query)
         this.props.history.push(`/new/${query}`)
         ev.target.reset()
     }

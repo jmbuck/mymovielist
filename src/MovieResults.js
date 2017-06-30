@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 
 import './MovieResults.css'
 import { movieKey } from './keys'
@@ -13,19 +13,31 @@ class MovieResults extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(this.props.location !== nextProps.location) {
-            const query = nextProps.match.params.query
+    componentWillMount() {
+        const query = this.props.match.params.query
+        console.log('will mount')
+        this.fetchMovies(query)
+    }
 
-            if(query) {
-                fetch(`https://api.themoviedb.org/3/search/movie?api_key=${movieKey}&query=${query}`)
-                    .then(response => response.json())
-                    .then(movies => {
-                        console.log(movies)
-                        this.setState({ results: movies.results })
-                    }
-                )
-            }
+    componentWillReceiveProps(nextProps) {
+        const oldQuery = this.props.match.params.query
+        const query = nextProps.match.params.query
+        console.log('will receive props')
+        if(oldQuery !== query) {
+            this.fetchMovies(query)
+        }
+    }
+
+    fetchMovies = (query) => {
+        if(query) {
+            console.log('fetched')
+            fetch(`https://api.themoviedb.org/3/search/movie?api_key=${movieKey}&query=${query}`)
+                .then(response => response.json())
+                .then(movies => {
+                    console.log(movies)
+                    this.setState({ results: movies.results })
+                }
+            )
         }
     }
 
@@ -45,6 +57,8 @@ class MovieResults extends Component {
                 </ul>
                 <Route path={`/new/${this.props.match.params.query}/:index`} render={navProps => {
                     const movie = this.state.results[parseInt(navProps.match.params.index)]
+                    
+                    if(!movie) return <Redirect to={`/new/${this.props.match.params.query}`} />
                     const path = `https://image.tmdb.org/t/p/w185${movie.poster_path}`
                     return (
                         <div className="result-info">
