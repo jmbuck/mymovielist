@@ -10,20 +10,20 @@ class MovieResults extends Component {
         super(props)
         this.state = {
             results: [],
+            added: false,
         }
     }
 
     componentWillMount() {
         const query = this.props.match.params.query
-        console.log('will mount')
         this.fetchMovies(query)
     }
 
     componentWillReceiveProps(nextProps) {
         const oldQuery = this.props.match.params.query
         const query = nextProps.match.params.query
-        console.log('will receive props')
         if(oldQuery !== query) {
+            this.setAdded(false)
             this.fetchMovies(query)
         }
     }
@@ -41,11 +41,17 @@ class MovieResults extends Component {
         }
     }
 
+    setAdded = (value) => {
+        this.setState({added: value})
+    }
+
     handleSubmit = (movie, ev) => {
         ev.preventDefault()
         const category = ev.target.category.value
         if(category) {
             this.props.addMovie(category, movie)
+            this.props.history.push(`/new/${this.props.match.params.query}`)
+            this.setAdded(true)
         }
     }
 
@@ -53,16 +59,42 @@ class MovieResults extends Component {
         return (
             <div className="MovieResults">
                 <ul>
-                    {this.state.results.map((result, i) => <MovieResult key={i} index={i} query={this.props.match.params.query} movie={result} {...this.props} />)}
+                    {this.state.results.map((result, i) => <MovieResult key={i} index={i} query={this.props.match.params.query} movie={result} setAdded={this.setAdded} {...this.props} />)}
                 </ul>
+                {
+                    this.state.added 
+                        ? <div className="added">Movie added to list successfully!</div>
+                        : <div className="added"></div>
+                }
                 <Route path={`/new/${this.props.match.params.query}/:index`} render={navProps => {
-                    const movie = this.state.results[parseInt(navProps.match.params.index)]
+                    const movie = this.state.results[navProps.match.params.index]
                     
                     if(!movie) return <Redirect to={`/new/${this.props.match.params.query}`} />
                     const path = `https://image.tmdb.org/t/p/w185${movie.poster_path}`
+                    const date = new Date(movie.release_date)
+                    const options = {
+                        month: "long",
+                        year: "numeric",
+                        day: "numeric",
+                    }
                     return (
                         <div className="result-info">
-                            <img src={path} alt="movie poster" />
+                            
+                            {/*Displays movie poster. If poster does not exist, show "poster does not exist" image*/
+                                movie.poster_path 
+                                ? <img src={path} alt="movie poster" />
+                                : <img src="http://static01.mediaite.com/med/wp-content/uploads/gallery/possilbe-movie-pitches-culled-from-the-mediaite-comments-section/poster-not-available1.jpg" alt="movie poster" />
+                            }
+
+                            <div className="title">{movie.title}</div>
+                            <div className="date">Release date: {date.toLocaleDateString("en-US", options)}</div>
+                            
+                            {
+                                movie.overview 
+                                ? <div className="synopsis">Synopsis: {movie.overview}</div>
+                                : <div className="synopsis">No synopsis available.</div>
+                            }
+                            
                             <form className="add-movie" onSubmit={(ev) => this.handleSubmit(movie, ev)}>
                                 <select name="category">
                                     <option value="">-- Category --</option>
