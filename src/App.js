@@ -20,7 +20,7 @@ class App extends Component {
 
   syncMovies = () => {
    this.ref = base.syncState(
-      `movies`, 
+      'movies', 
       {
         context: this,
         state: 'movies',

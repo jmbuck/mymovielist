@@ -11,31 +11,43 @@ class MovieResults extends Component {
         this.state = {
             results: [],
             added: false,
+            page: 0,
         }
     }
 
     componentWillMount() {
         const query = this.props.match.params.query
-        this.fetchMovies(query)
+        const page = this.props.match.params.page
+        this.fetchMovies(query, page)
     }
 
     componentWillReceiveProps(nextProps) {
         const oldQuery = this.props.match.params.query
         const query = nextProps.match.params.query
-        if(oldQuery !== query) {
+        const oldPage = this.props.match.params.page
+        const page = nextProps.match.params.page
+        if(oldQuery !== query || oldPage !== page) {
             this.setAdded(false)
-            this.fetchMovies(query)
+            this.fetchMovies(query, page)
         }
     }
 
-    fetchMovies = (query) => {
+    fetchMovies = (query, page) => {
         if(query) {
-            console.log('fetched')
-            fetch(`https://api.themoviedb.org/3/search/movie?api_key=${movieKey}&query=${query}`)
-                .then(response => response.json())
+            fetch(`https://api.themoviedb.org/3/search/movie?api_key=${movieKey}&query=${query}&page=${page}`)
+                .then(response => {
+                    if(response.status === 422) {
+                        this.props.history.push(`/new/${this.props.match.params.query}/1`)
+                        return
+                    }
+                    return response.json()})
                 .then(movies => {
-                    console.log(movies)
-                    this.setState({ results: movies.results })
+                    if(!movies) return
+                    this.setState({ results: movies.results, page, totalPages: movies.total_pages }, () => {
+                        if(page > movies.total_pages) {
+                            this.props.history.push(`/new/${this.props.match.params.query}/1`)
+                        }
+                    })
                 }
             )
         }
@@ -50,17 +62,31 @@ class MovieResults extends Component {
         const category = ev.target.category.value
         if(category) {
             this.props.addMovie(category, movie)
-            this.props.history.push(`/new/${this.props.match.params.query}`)
+            this.props.history.push(`/new/${this.props.match.params.query}/${this.props.match.params.page}`)
             this.setAdded(true)
         }
+    }
+
+    moveBack = () => {
+        this.props.history.push(`/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)-1}`)
+    }
+
+    moveForward = () => {
+        this.props.history.push(`/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)+1}`)
     }
 
     render() {
         return (
             <div className="MovieResults">
                 {
-                this.state.results.length > 0 
-                    ? <ul>{this.state.results.map((result, i) => <MovieResult key={i} index={i} query={this.props.match.params.query} movie={result} setAdded={this.setAdded} {...this.props} />)}</ul>
+                this.state.results && this.state.results.length > 0 
+                    ? <ul>{this.state.results.map((result, i) => <MovieResult 
+                                                                    key={i} index={i} query={this.props.match.params.query} 
+                                                                    page={this.props.match.params.page} 
+                                                                    movie={result} 
+                                                                    setAdded={this.setAdded} 
+                                                                    {...this.props} 
+                                                                 />)}</ul>
                     : <div>No results found.</div>
                 }
                 {
@@ -68,10 +94,21 @@ class MovieResults extends Component {
                     ? <div className="added">Movie added to list successfully!</div>
                     : <div className="added"></div>
                 }
-                <Route path={`/new/${this.props.match.params.query}/:index`} render={navProps => {
+
+                {(() => {
+                    if(this.props.match.params.page > 1) {
+                        return <button type="button" onClick={this.moveBack}>Back</button>
+                }})()}
+                {(() => {  
+                    if(this.props.match.params.page < this.state.totalPages) {
+                        return <button type="button" onClick={this.moveForward}>Forward</button>
+                }})()}
+                <span>Page {this.props.match.params.page} of {this.state.totalPages}</span>
+
+                <Route path={`/new/${this.props.match.params.query}/${this.props.match.params.page}/:index`} render={navProps => {
                     
                     const movie = this.state.results[navProps.match.params.index]
-                    if(!movie) return <Redirect to={`/new/${this.props.match.params.query}`} />
+                    if(!movie) return <Redirect to={`/new/${this.props.match.params.query}/${this.props.match.params.page}`} />
 
                     const path = `https://image.tmdb.org/t/p/w185${movie.poster_path}`
                     const date = new Date(movie.release_date)

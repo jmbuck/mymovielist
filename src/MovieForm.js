@@ -9,8 +9,7 @@ class MovieForm extends Component {
     handleSubmit = (ev) => {
         ev.preventDefault()
         const query = encodeURI(ev.target.title.value)
-        this.props.history.push(`/new/${query}`)
-        ev.target.reset()
+        this.props.history.push(`/new/${query}/1`)
     }
 
     render() {
@@ -20,7 +19,7 @@ class MovieForm extends Component {
                     <input type="text" placeholder="Movie title" name="title"/>
                     <button type="submit">Find Movie</button>
                 </form>
-                <Route path="/new/:query" render={(navProps) => <MovieResults {...this.props} {...navProps} />}/>
+                <Route path="/new/:query/:page" render={(navProps) => <MovieResults {...this.props} {...navProps} />}/>
             </div>
         );
     }
