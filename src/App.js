@@ -39,12 +39,16 @@ class App extends Component {
       movies[category] = {}
     }
 
-    console.log('fetched details')
+    let message
     fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
       .then(response => response.json())
       .then(movie => {
+        message = "Movie added to list successfully!"
+        if(movies[category][`movie-${movie.id}`]) {
+          message = "This movie already exists in your list!"
+        }
         movies[category][`movie-${movie.id}`] = movie
-        this.setState({ movies })
+        this.setState({ movies, message })
       })
   }
 
@@ -58,7 +62,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Main movies={this.state.movies} addMovie={this.addMovie} delete={this.delete}/>
+        <Main movies={this.state.movies} message={this.state.message} addMovie={this.addMovie} delete={this.delete}/>
       </div>
     );
   }

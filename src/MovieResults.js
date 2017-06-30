@@ -11,7 +11,6 @@ class MovieResults extends Component {
         this.state = {
             results: [],
             added: false,
-            page: 0,
         }
     }
 
@@ -43,6 +42,7 @@ class MovieResults extends Component {
                     return response.json()})
                 .then(movies => {
                     if(!movies) return
+                    console.log(movies)
                     this.setState({ results: movies.results, page, totalPages: movies.total_pages }, () => {
                         if(page > movies.total_pages) {
                             this.props.history.push(`/new/${this.props.match.params.query}/1`)
@@ -91,7 +91,7 @@ class MovieResults extends Component {
                 }
                 {
                 this.state.added 
-                    ? <div className="added">Movie added to list successfully!</div>
+                    ? <div className="added">{this.props.message}</div>
                     : <div className="added"></div>
                 }
 
@@ -128,12 +128,17 @@ class MovieResults extends Component {
                             }
 
                             <div className="title">{movie.title}</div>
-                            <div className="date">Release date: {date.toLocaleDateString("en-US", options)}</div>
-                            
+
+                            {
+                                movie.release_date
+                                ?  <div className="date">Release date: {date.toLocaleDateString("en-US", options)}</div>
+                                : <div className="date">Unknown release date</div>
+                            }
+                              
                             {
                                 movie.overview 
                                 ? <div className="synopsis">Synopsis: {movie.overview}</div>
-                                : <div className="synopsis">No synopsis available.</div>
+                                : <div className="synopsis">No synopsis available</div>
                             }
                             
                             <form className="add-movie" onSubmit={(ev) => this.handleSubmit(movie, ev)}>
