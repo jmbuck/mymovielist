@@ -69,9 +69,10 @@ class MovieResults extends Component {
                     : <div className="added"></div>
                 }
                 <Route path={`/new/${this.props.match.params.query}/:index`} render={navProps => {
-                    const movie = this.state.results[navProps.match.params.index]
                     
+                    const movie = this.state.results[navProps.match.params.index]
                     if(!movie) return <Redirect to={`/new/${this.props.match.params.query}`} />
+
                     const path = `https://image.tmdb.org/t/p/w185${movie.poster_path}`
                     const date = new Date(movie.release_date)
                     const options = {
@@ -79,6 +80,7 @@ class MovieResults extends Component {
                         year: "numeric",
                         day: "numeric",
                     }
+                    
                     return (
                         <div className="result-info">
                             

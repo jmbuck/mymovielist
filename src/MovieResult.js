@@ -11,7 +11,7 @@ class MovieResult extends Component {
 
   render() {
     return (
-        <li onClick={this.clickResult}>{this.props.movie.title}</li>
+        <li className="item" onClick={this.clickResult}>{this.props.movie.title}</li>
     )
   }
 }
