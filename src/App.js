@@ -48,10 +48,17 @@ class App extends Component {
       })
   }
 
+  delete = (category, movie) => {
+    const movies = {...this.state.movies}
+    movies[category][`movie-${movie.id}`] = null;
+    this.setState({ movies })
+    this.props.history.push(`/${category}`) 
+  }
+
   render() {
     return (
       <div className="App">
-        <Main movies={this.state.movies} addMovie={this.addMovie}/>
+        <Main movies={this.state.movies} addMovie={this.addMovie} delete={this.delete}/>
       </div>
     );
   }

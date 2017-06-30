@@ -10,14 +10,13 @@ const Main = (props) =>
 {
     return (
       <div className="Main">
-        <Sidebar />
-        
+        <Sidebar />     
         <Switch>
             <Route path="/new" render={(navProps) => <MovieForm {...props} {...navProps} />}/>
-            <Route path="/completed" render={(navProps) => <MovieList movies={props.movies} list="completed" {...navProps} />}/>
-            <Route path="/downloaded" render={(navProps) => <MovieList movies={props.movies} list="downloaded" {...navProps} />}/>
-            <Route path="/ptw" render={(navProps) => <MovieList movies={props.movies} list="ptw" {...navProps} />}/>
-            <Route path="/dropped" render={(navProps) => <MovieList movies={props.movies} list="dropped" {...navProps} />}/>
+            <Route path="/completed" render={(navProps) => <MovieList {...props} list="completed" {...navProps} />}/>
+            <Route path="/downloaded" render={(navProps) => <MovieList {...props} list="downloaded" {...navProps} />}/>
+            <Route path="/ptw" render={(navProps) => <MovieList {...props} list="ptw" {...navProps} />}/>
+            <Route path="/dropped" render={(navProps) => <MovieList {...props} list="dropped" {...navProps} />}/>
         </Switch>
       </div>
     )

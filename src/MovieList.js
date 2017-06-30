@@ -13,7 +13,7 @@ class MovieList extends Component {
 
     return (
         <ul>
-            {Object.keys(movies).map(movieId => <Movie key={movieId} category={category} movie={movies[movieId]} history={this.props.history} />)}
+            {Object.keys(movies).map(movieId => <Movie key={movieId} category={category} movie={movies[movieId]} delete={this.props.delete} history={this.props.history} />)}
         </ul>
     )
   }
