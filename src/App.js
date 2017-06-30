@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './App.css';
 import Main from './Main'
-import base from './keys'
+import base, { movieKey } from './keys'
 
 //http://paletton.com/#uid=64i0u0kllllaFw0g0qFqFg0w0aF
 
@@ -39,8 +39,13 @@ class App extends Component {
       movies[category] = {}
     }
 
-    movies[category][`movie-${movie.id}`] = movie
-    this.setState({ movies })
+    console.log('fetched details')
+    fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
+      .then(response => response.json())
+      .then(movie => {
+        movies[category][`movie-${movie.id}`] = movie
+        this.setState({ movies })
+      })
   }
 
   render() {

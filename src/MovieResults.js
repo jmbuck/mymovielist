@@ -58,13 +58,15 @@ class MovieResults extends Component {
     render() {
         return (
             <div className="MovieResults">
-                <ul>
-                    {this.state.results.map((result, i) => <MovieResult key={i} index={i} query={this.props.match.params.query} movie={result} setAdded={this.setAdded} {...this.props} />)}
-                </ul>
                 {
-                    this.state.added 
-                        ? <div className="added">Movie added to list successfully!</div>
-                        : <div className="added"></div>
+                this.state.results.length > 0 
+                    ? <ul>{this.state.results.map((result, i) => <MovieResult key={i} index={i} query={this.props.match.params.query} movie={result} setAdded={this.setAdded} {...this.props} />)}</ul>
+                    : <div>No results found.</div>
+                }
+                {
+                this.state.added 
+                    ? <div className="added">Movie added to list successfully!</div>
+                    : <div className="added"></div>
                 }
                 <Route path={`/new/${this.props.match.params.query}/:index`} render={navProps => {
                     const movie = this.state.results[navProps.match.params.index]
