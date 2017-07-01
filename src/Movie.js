@@ -63,7 +63,7 @@ class Movie extends Component {
               <div>
                 {this.props.movie.score 
                   ? `Score: ${this.props.movie.score}`
-                  : ''}
+                  : 'Score: -'}
               </div>
               <button className="button alert" type="button" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</button>
             </div>

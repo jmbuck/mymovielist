@@ -19,7 +19,8 @@ class MovieResult extends Component {
       ev.preventDefault()
       const category = ev.target.category.value
       movie.watched_date = ev.target.date.value
-      movie.score = parseInt(ev.target.score.value, 10)
+      const score = ev.target.score.value
+      score ? movie.score = parseInt(score, 10) : movie.score = 0
 
       this.props.addMovie(movie, category)
       this.props.history.push(`/new/${this.props.match.params.query}/${this.props.match.params.page}`)
