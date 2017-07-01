@@ -27,10 +27,10 @@ class MovieList extends Component {
     return (
       <div className="MovieList">
         <Switch>
-            <Route path="/completed" render={() => this.renderList('completed')} />
-            <Route path="/downloaded" render={() => this.renderList('downloaded')} />
-            <Route path="/ptw" render={() => this.renderList('ptw')} />
-            <Route path="/dropped" render={() => this.renderList('dropped')} />
+            <Route path="/movies/completed" render={() => this.renderList('completed')} />
+            <Route path="/movies/downloaded" render={() => this.renderList('downloaded')} />
+            <Route path="/movies/ptw" render={() => this.renderList('ptw')} />
+            <Route path="/movies/dropped" render={() => this.renderList('dropped')} />
         </Switch>
       </div>
     )

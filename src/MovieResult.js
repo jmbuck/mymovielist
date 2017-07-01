@@ -7,11 +7,11 @@ class MovieResult extends Component {
 
   clickResult = (ev) => {
       this.props.setAdded(false)
-      const path = `/new/${this.props.match.params.query}/${this.props.match.params.page}/${this.props.index}`
+      const path = `/movies/new/${this.props.match.params.query}/${this.props.match.params.page}/${this.props.index}`
       if(this.props.location.pathname !== path) {
         this.props.history.push(path)
       } else {
-        this.props.history.push(`/new/${this.props.match.params.query}/${this.props.match.params.page}`)
+        this.props.history.push(`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`)
       }
   }
   
@@ -23,13 +23,13 @@ class MovieResult extends Component {
       score ? movie.score = parseInt(score, 10) : movie.score = 0
 
       this.props.addMovie(movie, category)
-      this.props.history.push(`/new/${this.props.match.params.query}/${this.props.match.params.page}`)
+      this.props.history.push(`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`)
       this.props.setAdded(true)
   }
 
   renderResultInfo = () => {
     const movie = this.props.movie
-    if(!movie) return <Redirect to={`/new/${this.props.match.params.query}/${this.props.match.params.page}`} />
+    if(!movie) return <Redirect to={`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`} />
 
     const path = `https://image.tmdb.org/t/p/w300${movie.poster_path}`
     const date = new Date(movie.release_date)
@@ -101,7 +101,7 @@ class MovieResult extends Component {
                                       : 'Unknown'})
           </div>
           <Route 
-            path={`/new/${this.props.match.params.query}/${this.props.match.params.page}/${this.props.index}`} 
+            path={`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}/${this.props.index}`} 
             render={this.renderResultInfo} 
           />
         </li>

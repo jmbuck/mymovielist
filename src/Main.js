@@ -12,11 +12,11 @@ const Main = (props) =>
       <div className="Main">
         <Sidebar />     
         <Switch>
-            <Route path="/new" render={(navProps) => <MovieForm {...props} {...navProps} />}/>
-            <Route path="/completed" render={(navProps) => <MovieList {...props} list="completed" {...navProps} />}/>
-            <Route path="/downloaded" render={(navProps) => <MovieList {...props} list="downloaded" {...navProps} />}/>
-            <Route path="/ptw" render={(navProps) => <MovieList {...props} list="ptw" {...navProps} />}/>
-            <Route path="/dropped" render={(navProps) => <MovieList {...props} list="dropped" {...navProps} />}/>
+            <Route path="/movies/new" render={(navProps) => <MovieForm {...props} {...navProps} />}/>
+            <Route path="/movies/completed" render={(navProps) => <MovieList {...props} list="completed" {...navProps} />}/>
+            <Route path="/movies/downloaded" render={(navProps) => <MovieList {...props} list="downloaded" {...navProps} />}/>
+            <Route path="/movies/ptw" render={(navProps) => <MovieList {...props} list="ptw" {...navProps} />}/>
+            <Route path="/movies/dropped" render={(navProps) => <MovieList {...props} list="dropped" {...navProps} />}/>
         </Switch>
       </div>
     )

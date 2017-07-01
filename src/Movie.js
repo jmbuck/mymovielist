@@ -12,10 +12,10 @@ class Movie extends Component {
   }
 
   handleClick = (ev) => {
-     if(this.props.location.pathname !== `/${this.props.category}/${this.props.movie.id}`) {
-        this.props.history.push(`/${this.props.category}/${this.props.movie.id}`)
+     if(this.props.location.pathname !== `/movies/${this.props.category}/${this.props.movie.id}`) {
+        this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
      }  else {
-       this.props.history.push(`/${this.props.category}`)
+       this.props.history.push(`/movies/${this.props.category}`)
      }
   }
 
@@ -46,7 +46,7 @@ class Movie extends Component {
       )
     }
 
-    return <Redirect to={`/${category}`} />
+    return <Redirect to={`/movies/${category}`} />
   }
 
   render() {
@@ -67,7 +67,7 @@ class Movie extends Component {
               </div>
               <button className="button alert" type="button" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</button>
             </div>
-            <Route path={`/:category/${this.props.movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
+            <Route path={`/movies/:category/${this.props.movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
         </li>
       </div>
     )

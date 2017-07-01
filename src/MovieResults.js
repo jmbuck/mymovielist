@@ -35,7 +35,7 @@ class MovieResults extends Component {
             fetch(`https://api.themoviedb.org/3/search/movie?api_key=${movieKey}&query=${query}&page=${page}`)
                 .then(response => {
                     if(response.status === 422) {
-                        this.props.history.push(`/new/${this.props.match.params.query}/1`)
+                        this.props.history.push(`/movies/new/${this.props.match.params.query}/1`)
                         return
                     }
                     return response.json()})
@@ -43,7 +43,7 @@ class MovieResults extends Component {
                     if(!movies) return
                     this.setState({ results: movies.results, page, totalPages: movies.total_pages }, () => {
                         if(page > movies.total_pages) {
-                            this.props.history.push(`/new/${this.props.match.params.query}/1`)
+                            this.props.history.push(`/movies/new/${this.props.match.params.query}/1`)
                         }
                     })
                 }
@@ -56,11 +56,11 @@ class MovieResults extends Component {
     }
 
     moveBack = () => {
-        this.props.history.push(`/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)-1}`)
+        this.props.history.push(`/movies/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)-1}`)
     }
 
     moveForward = () => {
-        this.props.history.push(`/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)+1}`)
+        this.props.history.push(`/movies/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)+1}`)
     }
 
     render() {
