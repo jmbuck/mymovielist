@@ -39,19 +39,21 @@ class App extends Component {
       movies[category] = {}
     }
 
-    let message
-    fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
-      .then(response => response.json())
-      .then(newMovie => {
-        message = "Movie added to list successfully!"
-        if(movies[category][`movie-${movie.id}`]) {
-          message = "This movie already exists in your list!"
-        }
-        newMovie.watched_date = movie.watched_date
-        newMovie.score = movie.score
-        movies[category][`movie-${movie.id}`] = newMovie
-        this.setState({ movies, message })
+    let message ="Movie added to list successfully!"
+    if(movies[category][`movie-${movie.id}`]) {
+      message = "This movie already exists in your list!"
+      this.setState({ message })
+    } else {
+      this.setState({ message })
+      fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
+        .then(response => response.json())
+        .then(newMovie => {
+            newMovie.watched_date = movie.watched_date
+            newMovie.score = movie.score
+            movies[category][`movie-${movie.id}`] = newMovie
+            this.setState({ movies, message })
       })
+    }
   }
 
   delete = (category, movie) => {
