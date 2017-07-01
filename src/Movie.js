@@ -12,6 +12,12 @@ class Movie extends Component {
     return (
         <li className="item" onClick={this.handleClick}>
             <div>{this.props.movie.title}</div>
+            <div>{this.props.movie.watched_date}</div>
+            <div>
+              {this.props.movie.score 
+                ? `Score: ${this.props.movie.score}`
+                : ''}
+            </div>
             <button type="button" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</button>
         </li>
     )

@@ -60,11 +60,12 @@ class MovieResults extends Component {
     handleSubmit = (movie, ev) => {
         ev.preventDefault()
         const category = ev.target.category.value
-        if(category) {
-            this.props.addMovie(category, movie)
-            this.props.history.push(`/new/${this.props.match.params.query}/${this.props.match.params.page}`)
-            this.setAdded(true)
-        }
+        movie.watched_date = ev.target.date.value
+        movie.score = parseInt(ev.target.score.value, 10)
+        
+        this.props.addMovie(movie, category)
+        this.props.history.push(`/new/${this.props.match.params.query}/${this.props.match.params.page}`)
+        this.setAdded(true)
     }
 
     moveBack = () => {
@@ -142,12 +143,22 @@ class MovieResults extends Component {
                             }
                             
                             <form className="add-movie" onSubmit={(ev) => this.handleSubmit(movie, ev)}>
-                                <select name="category">
-                                    <option value="">-- Category --</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="downloaded">Downloaded</option>
-                                    <option value="ptw">Plan to Watch</option>
-                                    <option value="dropped">Dropped</option>
+                                <input type="radio" name="category" value="completed" checked/>Completed<br/>
+                                <input type="radio" name="category" value="ptw" />Plan to Watch<br/>
+                                <input type="radio" name="category" value="dropped" />Dropped<br/>
+                                Date watched (optional): <input type="date" name="date" />
+                                <select name="score">
+                                    <option value="">-- Score --</option>
+                                    <option value="10">10</option>
+                                    <option value="9">9</option>
+                                    <option value="8">8</option>
+                                    <option value="7">7</option>
+                                    <option value="6">6</option>
+                                    <option value="5">5</option>
+                                    <option value="4">4</option>
+                                    <option value="3">3</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
                                 </select>
                                 <button type="submit">Add Movie</button>
                             </form>
