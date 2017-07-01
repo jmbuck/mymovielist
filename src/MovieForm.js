@@ -8,7 +8,7 @@ class MovieForm extends Component {
   
     handleSubmit = (ev) => {
         ev.preventDefault()
-        const query = encodeURI(ev.target.title.value)
+        const query = ev.target.title.value.replace(/\/| /g, '+')
         this.props.history.push(`/new/${query}/1`)
     }
 

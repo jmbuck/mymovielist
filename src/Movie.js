@@ -50,6 +50,7 @@ class Movie extends Component {
 
   render() {
     return (
+      <div className="Movie">
         <li className="item" onClick={this.handleClick}>
             <div>{this.props.movie.title}</div>
             <div>{this.props.movie.watched_date}</div>
@@ -58,9 +59,12 @@ class Movie extends Component {
                 ? `Score: ${this.props.movie.score}`
                 : ''}
             </div>
-            <button type="button" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</button>
-            <Route path={`/:category/${this.props.movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
+            <button className="button alert" type="button" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</button>
+            <div className="movie-info">
+              <Route path={`/:category/${this.props.movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
+            </div>
         </li>
+      </div>
     )
   }
 }

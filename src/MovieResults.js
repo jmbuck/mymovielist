@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Route, Redirect } from 'react-router-dom'
 
 import './MovieResults.css'
 import { movieKey } from './keys'
@@ -42,7 +41,6 @@ class MovieResults extends Component {
                     return response.json()})
                 .then(movies => {
                     if(!movies) return
-                    console.log(movies)
                     this.setState({ results: movies.results, page, totalPages: movies.total_pages }, () => {
                         if(page > movies.total_pages) {
                             this.props.history.push(`/new/${this.props.match.params.query}/1`)

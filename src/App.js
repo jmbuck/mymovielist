@@ -39,9 +39,9 @@ class App extends Component {
       movies[category] = {}
     }
 
-    let message ="Movie added to list successfully!"
+    let message =`${movie.title} was added to your list successfully!`
     if(movies[category][`movie-${movie.id}`]) {
-      message = "This movie already exists in your list!"
+      message = `${movie.title} already exists in your list!`
       this.setState({ message })
     } else {
       this.setState({ message })
