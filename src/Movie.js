@@ -5,6 +5,12 @@ import './Movie.css'
 
 class Movie extends Component {
 
+  options = {
+    month: "long",
+    year: "numeric",
+    day: "numeric",
+  }
+
   handleClick = (ev) => {
      if(this.props.location.pathname !== `/${this.props.category}/${this.props.movie.id}`) {
         this.props.history.push(`/${this.props.category}/${this.props.movie.id}`)
@@ -18,23 +24,18 @@ class Movie extends Component {
 
     const movie = this.props.movie
     if(movie) {
-      const path = `https://image.tmdb.org/t/p/w185${movie.poster_path}`
-      const date = new Date(movie.release_date)
-      const options = {
-          month: "long",
-          year: "numeric",
-          day: "numeric",
-      }
-       return (
-        <div className="movie-info">
-          {/*Displays movie poster. If poster does not exist, show "poster does not exist" image*/
-              movie.poster_path 
-              ? <img src={path} alt="movie poster" />
-              : <img src="http://static01.mediaite.com/med/wp-content/uploads/gallery/possilbe-movie-pitches-culled-from-the-mediaite-comments-section/poster-not-available1.jpg" alt="movie poster" />
-          }
-
+      const path = `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+      const release_date = new Date(movie.release_date)
+      return (
+      <div className="more-info">
+        {/*Displays movie poster. If poster does not exist, show "poster does not exist" image*/
+            movie.poster_path 
+            ? <img src={path} alt="movie poster" />
+            : <img src="http://static01.mediaite.com/med/wp-content/uploads/gallery/possilbe-movie-pitches-culled-from-the-mediaite-comments-section/poster-not-available1.jpg" alt="movie poster" />
+        }
+        <div className="not-poster">
           <div className="title">{movie.title}</div>
-          <div className="date">Release date: {date.toLocaleDateString("en-US", options)}</div>
+          <div className="date">Released: {release_date.toLocaleDateString("en-US", this.options)}</div>
           
           {
               movie.overview 
@@ -42,27 +43,29 @@ class Movie extends Component {
               : <div className="synopsis">No synopsis available.</div>
           }
         </div>
-       )
+      </div>
+      )
     }
 
     return <Redirect to={`/${category}`} />
   }
 
   render() {
+    const watched_date = new Date(this.props.movie.watched_date)
     return (
       <div className="Movie">
         <li className="item" onClick={this.handleClick}>
-            <div>{this.props.movie.title}</div>
-            <div>{this.props.movie.watched_date}</div>
-            <div>
-              {this.props.movie.score 
-                ? `Score: ${this.props.movie.score}`
-                : ''}
+            <div className="info">
+              <div>{this.props.movie.title}</div>
+              <div>Watched: {watched_date.toLocaleDateString("en-US", this.options)}</div>
+              <div>
+                {this.props.movie.score 
+                  ? `Score: ${this.props.movie.score}`
+                  : ''}
+              </div>
+              <button className="button alert" type="button" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</button>
             </div>
-            <button className="button alert" type="button" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</button>
-            <div className="movie-info">
-              <Route path={`/:category/${this.props.movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
-            </div>
+            <Route path={`/:category/${this.props.movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
         </li>
       </div>
     )

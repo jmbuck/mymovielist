@@ -1,5 +1,40 @@
 .Movie .item {
     border: 1px solid black;
     display: flex;
-    width: 100%;
+    flex-direction: column;
+    width: 65%;
+}
+
+.Movie .info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.Movie .info div {
+    width: 25%;
+}
+
+.Movie .more-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.Movie .more-info img {
+    width: 200px;
+    height: 100%;
+    margin: 0rem 1rem 1rem 1rem
+}
+
+.Movie .more-info .not-poster {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.Movie .button {
+    margin-bottom: 0;
 }

@@ -8,6 +8,6 @@
     padding-right: 1rem;
 }
 
-.MovieList ul div+div {
+.MovieList ul .Movie+.Movie {
     padding-top: 0.5rem;
 } 
