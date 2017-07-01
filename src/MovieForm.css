@@ -1,0 +1,11 @@
+.MovieForm {
+    width: 100%;
+    padding-top: 1rem;
+    padding-left: 1rem;
+}
+
+.MovieForm .find-movie {
+    width: 40%;
+    margin-left: 1rem;
+}
+

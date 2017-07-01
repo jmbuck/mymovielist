@@ -15,9 +15,13 @@ class MovieForm extends Component {
     render() {
         return (
             <div className="MovieForm">
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" placeholder="Movie title" name="title"/>
-                    <button type="submit">Find Movie</button>
+                <form className="find-movie" onSubmit={this.handleSubmit}>
+                    <div className="input-group">
+                        <input className="input-group-field" type="text" placeholder="Movie title" name="title"/>
+                        <div className="input-group-button">
+                            <button className="button" type="submit">Find Movie</button>
+                        </div>
+                    </div>
                 </form>
                 <Route path="/new/:query/:page" render={(navProps) => <MovieResults {...this.props} {...navProps} />}/>
             </div>

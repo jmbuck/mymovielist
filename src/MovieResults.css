@@ -1,0 +1,15 @@
+.MovieResults ul {
+    list-style-type: none;
+}
+
+.MovieResults ul .MovieResult+.MovieResult {
+    padding-top: 0.5rem;
+} 
+
+.MovieResults .page {
+    margin-left: 1rem;
+}
+
+.MovieResults .button.warning {
+    margin-left: 1rem;
+}

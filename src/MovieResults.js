@@ -88,13 +88,13 @@ class MovieResults extends Component {
 
                 {(() => {
                     if(this.props.match.params.page > 1) {
-                        return <button type="button" onClick={this.moveBack}>Back</button>
+                        return <button className="button warning" type="button" onClick={this.moveBack}>{'<'}</button>
                 }})()}
                 {(() => {  
                     if(this.props.match.params.page < this.state.totalPages) {
-                        return <button type="button" onClick={this.moveForward}>Forward</button>
+                        return <button className="button warning" type="button" onClick={this.moveForward}>></button>
                 }})()}
-                <span>Page {this.props.match.params.page} of {this.state.totalPages}</span>
+                <span className="page">Page {this.props.match.params.page} of {this.state.totalPages}</span>
             </div>
         );
     }

@@ -34,7 +34,6 @@ class Movie extends Component {
             : <img src="http://static01.mediaite.com/med/wp-content/uploads/gallery/possilbe-movie-pitches-culled-from-the-mediaite-comments-section/poster-not-available1.jpg" alt="movie poster" />
         }
         <div className="not-poster">
-          <div className="title">{movie.title}</div>
           <div className="date">Released: {release_date.toLocaleDateString("en-US", this.options)}</div>
           
           {
@@ -57,7 +56,10 @@ class Movie extends Component {
         <li className="item" onClick={this.handleClick}>
             <div className="info">
               <div>{this.props.movie.title}</div>
-              <div>Watched: {watched_date.toLocaleDateString("en-US", this.options)}</div>
+              { this.props.movie.watched_date 
+                ? <div>Watched: {watched_date.toLocaleDateString("en-US", this.options)}</div>
+                : <div></div>
+              } 
               <div>
                 {this.props.movie.score 
                   ? `Score: ${this.props.movie.score}`
