@@ -61,6 +61,12 @@ class App extends Component {
       })
    }
 
+    stopSyncing = () => {
+      if(this.ref) {
+        base.removeBinding(this.ref)
+      }
+   }
+
   authHandler = (user) => {
       localStorage.setItem('uid', user.uid)
       this.setState({ uid: user.uid }, this.syncMovies)
@@ -107,7 +113,7 @@ class App extends Component {
         <Switch>
           <Route path="/movies" render={() =>
             this.signedIn() 
-            ? <Main movies={this.state.movies} message={this.state.message} addMovie={this.addMovie} delete={this.delete} />
+            ? <Main movies={this.state.movies} message={this.state.message} addMovie={this.addMovie} delete={this.delete} signOut={this.signOut}/>
             : <Redirect to="/sign-in" />
           }/>
           <Route path="/sign-in" render={() => 

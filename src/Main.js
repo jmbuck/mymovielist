@@ -10,7 +10,7 @@ const Main = (props) =>
 {
     return (
       <div className="Main">
-        <Sidebar />     
+        <Sidebar signOut={props.signOut}/>     
         <Switch>
             <Route path="/movies/new" render={(navProps) => <MovieForm {...props} {...navProps} />}/>
             <Route path="/movies/completed" render={(navProps) => <MovieList {...props} list="completed" {...navProps} />}/>

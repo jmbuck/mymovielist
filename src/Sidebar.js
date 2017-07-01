@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import './Sidebar.css';
 
-const Sidebar = () => 
+import './Sidebar.css';
+import SignOut from './SignOut'
+
+const Sidebar = ({ signOut }) => 
 {
     return (
       <div className="Sidebar">
@@ -23,6 +25,7 @@ const Sidebar = () =>
                 <Link to="/movies/dropped" className="dropped">
                   <button className="button" type="button">Dropped Movies</button>
                 </Link>
+                <SignOut signOut={signOut} />
               </div>
           </div>
       </div>
