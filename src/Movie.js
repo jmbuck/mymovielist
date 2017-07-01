@@ -1,11 +1,51 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Route, Redirect } from 'react-router-dom'
 
-import './Movie.css';
+import './Movie.css'
 
 class Movie extends Component {
 
   handleClick = (ev) => {
-     this.props.history.push(`/${this.props.category}/${this.props.movie.id}`)
+     if(this.props.location.pathname !== `/${this.props.category}/${this.props.movie.id}`) {
+        this.props.history.push(`/${this.props.category}/${this.props.movie.id}`)
+     }  else {
+       this.props.history.push(`/${this.props.category}`)
+     }
+  }
+
+  renderInfo(navProps) {
+    const category = navProps.match.params.category
+
+    const movie = this.props.movie
+    if(movie) {
+      const path = `https://image.tmdb.org/t/p/w185${movie.poster_path}`
+      const date = new Date(movie.release_date)
+      const options = {
+          month: "long",
+          year: "numeric",
+          day: "numeric",
+      }
+       return (
+        <div className="movie-info">
+          {/*Displays movie poster. If poster does not exist, show "poster does not exist" image*/
+              movie.poster_path 
+              ? <img src={path} alt="movie poster" />
+              : <img src="http://static01.mediaite.com/med/wp-content/uploads/gallery/possilbe-movie-pitches-culled-from-the-mediaite-comments-section/poster-not-available1.jpg" alt="movie poster" />
+          }
+
+          <div className="title">{movie.title}</div>
+          <div className="date">Release date: {date.toLocaleDateString("en-US", options)}</div>
+          
+          {
+              movie.overview 
+              ? <div className="synopsis">Synopsis: {movie.overview}</div>
+              : <div className="synopsis">No synopsis available.</div>
+          }
+        </div>
+       )
+    }
+
+    return <Redirect to={`/${category}`} />
   }
 
   render() {
@@ -19,6 +59,7 @@ class Movie extends Component {
                 : ''}
             </div>
             <button type="button" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</button>
+            <Route path={`/:category/${this.props.movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
         </li>
     )
   }
