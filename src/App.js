@@ -71,6 +71,32 @@ class App extends Component {
       localStorage.setItem('uid', user.uid)
       this.setState({ uid: user.uid }, this.syncMovies)
    }
+
+  trimCredits = (movie) => {
+    //To save space on Firebase, only store small portion of credits
+    let directors = []
+    let screenplay = []
+    let writers = []
+    let starring = ""
+    if(movie.credits) {
+      if(movie.credits.crew) {
+        movie.credits.crew.map((member, i) => {
+          if(member.job === 'Director') directors.push(member.name)
+          if(member.job === 'Screenplay') screenplay.push(member.name)
+          if(member.job === 'Writer') writers.push(member.name)
+        })
+      }  
+      if(movie.credits.cast) {
+        const cast = movie.credits.cast
+        starring = `${cast[0].name}, ${cast[1].name}, ${cast[2].name}` 
+      }    
+    }
+    movie.directors = directors.toString().replace(/,/g, ', ')
+    movie.screenplay = screenplay.toString().replace(/,/g, ', ')
+    movie.writers = writers.toString().replace(/,/g, ', ')
+    movie.starring = starring
+    delete movie.credits
+  }
   
   addMovie = (movie, category) => {
     if(!movie.id) {
@@ -94,6 +120,8 @@ class App extends Component {
         .then(newMovie => {
             newMovie.watched_date = movie.watched_date
             newMovie.score = movie.score
+            console.log(newMovie.credits)
+            this.trimCredits(newMovie)
             movies[category][`movie-${movie.id}`] = newMovie
             this.setState({ movies, message })
       })
