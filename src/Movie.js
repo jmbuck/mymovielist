@@ -153,10 +153,12 @@ class Movie extends Component {
               </select>
             </div>
           </div>
-          <button className="button success" type="submit">Confirm</button>
-          <button className="button alert" type="button" onClick={() => {
-              this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
-            }}>Cancel</button>
+          <div className="stacked-for-small radius button-group">
+            <button className="button success" type="submit">Confirm</button>
+            <button className="button alert" type="button" onClick={() => {
+                this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
+              }}>Cancel</button>
+          </div>
       </form>
     )
   }
