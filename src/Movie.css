@@ -16,12 +16,17 @@
     width: 25%;
 }
 
-.Movie .more-info {
+.Movie .more-info .main {
     display: flex;
     flex-direction: row;
 }
 
-.Movie .more-info img {
+.Movie .more-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.Movie .more-info .main img {
     width: 200px;
     height: 100%;
     margin: 0rem 1rem 1rem 1rem
@@ -37,4 +42,15 @@
 
 .Movie .button {
     margin-bottom: 0;
+}
+
+.Movie .credits-button {
+    margin-bottom: 0.75rem;
+}
+
+.Movie .credits {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 0.75rem;
 }
