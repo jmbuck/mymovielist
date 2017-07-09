@@ -79,16 +79,20 @@ class App extends Component {
     let writers = []
     let starring = ""
     if(movie.credits) {
-      if(movie.credits.crew) {
+      if(movie.credits.crew.length > 0) {
         movie.credits.crew.map((member, i) => {
           if(member.job === 'Director') directors.push(member.name)
           if(member.job === 'Screenplay') screenplay.push(member.name)
           if(member.job === 'Writer') writers.push(member.name)
         })
       }  
-      if(movie.credits.cast) {
+      if(movie.credits.cast.length > 0) {
         const cast = movie.credits.cast
-        starring = `${cast[0].name}, ${cast[1].name}, ${cast[2].name}` 
+        starring = cast[0].name
+        for(let i = 1; i < 3; i++) {
+          if(cast[i])
+            starring += ', ' + cast[i].name
+        }
       }    
     }
     movie.directors = directors.toString().replace(/,/g, ', ')
