@@ -2,10 +2,14 @@
     width: 100%;
 }
 
+.MovieList .list {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
 .MovieList ul {
     list-style-type: none;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    margin-left: 0;
 }
 
 .MovieList ul .Movie {

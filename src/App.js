@@ -182,6 +182,7 @@ class App extends Component {
             ? <SignIn />
             : <Redirect to="/movies"/>
           }/>
+          <Route path="/" render={() => <Redirect to="/movies"/>}/>
         </Switch>
       </div>
     );
