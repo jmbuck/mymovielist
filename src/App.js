@@ -119,8 +119,14 @@ class App extends Component {
     } 
     return false;
   }
+
+  saveMovie = (movie, category) => {
+    const movies = {...this.state.movies}
+    movies[category][`movie-${movie.id}`] = movie
+    this.setState({ movies })
+  }
   
-  addMovie = (movie, category) => {
+  addMovie = (movie, category, copy=false) => {
     if(!movie.id) {
       movie.id = Date.now()
     }
@@ -132,7 +138,7 @@ class App extends Component {
     }
 
     let newMovie = {movie, message: `${movie.title} was added to your list successfully!`}
-    if(!this.isDuplicate(newMovie)) {
+    if(!this.isDuplicate(newMovie) || copy) {
       this.setState({ message: newMovie.message })
       fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
         .then(response => response.json())
@@ -161,7 +167,14 @@ class App extends Component {
         <Switch>
           <Route path="/movies" render={() =>
             this.signedIn() 
-            ? <Main movies={this.state.movies} message={this.state.message} addMovie={this.addMovie} delete={this.delete} signOut={this.signOut}/>
+            ? <Main 
+                movies={this.state.movies} 
+                message={this.state.message} 
+                saveMovie={this.saveMovie} 
+                addMovie={this.addMovie} 
+                delete={this.delete} 
+                signOut={this.signOut}
+              />
             : <Redirect to="/sign-in" />
           }/>
           <Route path="/sign-in" render={() => 

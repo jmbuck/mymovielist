@@ -50,6 +50,21 @@ class Movie extends Component {
     })
   }
 
+  handleSubmit = (movie, ev) => {
+    ev.preventDefault()
+    const category = ev.target.category.value
+    movie.watched_date = ev.target.date.value
+    const score = ev.target.score.value
+    score ? movie.score = parseInt(score, 10) : movie.score = 0
+    if(category !== this.props.category) {
+      this.props.addMovie(movie, category, true)
+      this.props.delete(this.props.category, movie)
+    } else {
+      this.props.saveMovie(movie, category)
+    }
+    this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
+  }
+
   renderCredits = (navProps, movie) => {
     if(!this.fetched) {
       this.showCredits(movie)
@@ -131,7 +146,9 @@ class Movie extends Component {
             </div>
           </div>
           <button className="button success" type="submit">Confirm</button>
-          <button className="button alert" type="submit">Cancel</button>
+          <button className="button alert" type="button" onClick={() => {
+              this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
+            }}>Cancel</button>
       </form>
     )
   }
@@ -143,6 +160,7 @@ class Movie extends Component {
     if(movie) {
       const path = `https://image.tmdb.org/t/p/w300${movie.poster_path}`
       const release_date = new Date(movie.release_date)
+      release_date.setDate(release_date.getDate()+1)
       return (
         <div className="more-info">
           <div className="main">
@@ -215,6 +233,7 @@ class Movie extends Component {
 
   render() {
     const watched_date = new Date(this.props.movie.watched_date)
+    watched_date.setDate(watched_date.getDate()+1)
     return (
       <div className="Movie">
         <li className="item" onClick={this.handleClick}>
