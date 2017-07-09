@@ -18,17 +18,23 @@ class Movie extends Component {
 
   handleClick = (ev) => {
     const path = `/movies/${this.props.category}/${this.props.movie.id}`
-    if(!ev.target.classList.contains('credits-button')) {
-      if(this.props.location.pathname !== path) {
-        this.props.history.push(path)
-      } else {
-        this.props.history.push(`/movies/${this.props.category}`)
-      }
-    } else {
+    if(ev.target.classList.contains('credits-button')) { //Credits button is clicked
       if (this.props.location.pathname !== path+'/credits') {
         this.showCredits(this.props.movie)
       } else {
         this.props.history.push(path)
+      }
+    } else if(ev.target.classList.contains('edit')) { //Edit button is clicked
+      if (this.props.location.pathname !== path+'/edit') {
+        this.props.history.push(path+'/edit')
+      } else {
+        this.props.history.push(path)
+      }
+    } else if(ev.target.classList.contains('info') || ev.target.classList.contains('info-item')) { //Title bar of movie is clicked
+      if(this.props.location.pathname !== path) {
+        this.props.history.push(path)
+      } else {
+        this.props.history.push(`/movies/${this.props.category}`)
       }
     } 
   }
@@ -44,7 +50,7 @@ class Movie extends Component {
     })
   }
 
-  renderCredits(navProps, movie) {
+  renderCredits = (navProps, movie) => {
     if(!this.fetched) {
       this.showCredits(movie)
     }
@@ -97,7 +103,40 @@ class Movie extends Component {
     }
   }
 
-  renderInfo(navProps) {
+  renderEditForm = (navProps, movie) => {
+    const category = this.props.category
+    return (
+      <form onSubmit={(ev) => this.handleSubmit(movie, ev)}>
+        <div className="edit-movie">
+            <div className="category">
+              <input type="radio" name="category" value="completed" defaultChecked={category === 'completed'}/>Completed<br/>
+              <input type="radio" name="category" value="ptw" defaultChecked={category === 'ptw'}/>Plan to Watch<br/>
+              <input type="radio" name="category" value="dropped" defaultChecked={category === 'dropped'}/>Dropped<br/>
+            </div>
+            <div className="others">
+              Date watched: <input type="date" name="date" defaultValue={movie.watched_date} />
+              <select name="score" defaultValue={movie.score}>
+                  <option value="">-- Score --</option>
+                  <option value="10">10</option>
+                  <option value="9">9</option>
+                  <option value="8">8</option>
+                  <option value="7">7</option>
+                  <option value="6">6</option>
+                  <option value="5">5</option>
+                  <option value="4">4</option>
+                  <option value="3">3</option>
+                  <option value="2">2</option>
+                  <option value="1">1</option>
+              </select>
+            </div>
+          </div>
+          <button className="button success" type="submit">Confirm</button>
+          <button className="button alert" type="submit">Cancel</button>
+      </form>
+    )
+  }
+
+  renderInfo = (navProps) => {
     const category = navProps.match.params.category
 
     const movie = this.props.movie
@@ -166,7 +205,8 @@ class Movie extends Component {
             <a className="button edit warning">Edit</a>
             <a className="button delete alert" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</a>
           </div>
-          <Route path={`/movies/${category}/${movie.id}/credits`} render={(navProps) => this.renderCredits(navProps, movie)}/>   
+          <Route path={`/movies/${category}/${movie.id}/credits`} render={(navProps) => this.renderCredits(navProps, movie)}/> 
+          <Route path={`/movies/${category}/${movie.id}/edit`} render={(navProps) => this.renderEditForm(navProps, movie)}/>
         </div>
       )
     }
@@ -179,12 +219,12 @@ class Movie extends Component {
       <div className="Movie">
         <li className="item" onClick={this.handleClick}>
             <div className="info">
-              <div>{this.props.movie.title}</div>
+              <div className="info-item">{this.props.movie.title}</div>
               { this.props.movie.watched_date 
-                ? <div>Watched: {watched_date.toLocaleDateString("en-US", this.options)}</div>
-                : <div></div>
+                ? <div className="info-item">Watched: {watched_date.toLocaleDateString("en-US", this.options)}</div>
+                : <div className="info-item"></div>
               } 
-              <div>
+              <div className="info-item">
                 {this.props.movie.score 
                   ? `Score: ${this.props.movie.score}`
                   : 'Score: -'}
