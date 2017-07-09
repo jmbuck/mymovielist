@@ -59,7 +59,7 @@ class Movie extends Component {
                 <div>CAST</div>
                 <ul>
                   {this.cast.map((member, i) => {
-                    if(i < 20 && member) {
+                    if(i < 25 && member) {
                       return (
                         <li key={i}>
                           {member.name} as {member.character}
@@ -79,7 +79,7 @@ class Movie extends Component {
                 <div>CREW</div>
                 <ul>
                   {this.crew.map((member, i) => {
-                    if(i < 20 && member) {
+                    if(i < 25 && member) {
                       return (
                         <li key={i}>
                           {member.job} - {member.name}
@@ -161,7 +161,11 @@ class Movie extends Component {
               } 
             </div>
           </div>
-          <button className="button credits-button">Cast and crew</button>  
+          <div className="expanded stacked-for-small radius button-group">
+            <a className="button credits-button">Cast and crew</a>
+            <a className="button edit warning">Edit</a>
+            <a className="button delete alert" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</a>
+          </div>
           <Route path={`/movies/${category}/${movie.id}/credits`} render={(navProps) => this.renderCredits(navProps, movie)}/>   
         </div>
       )
@@ -185,7 +189,6 @@ class Movie extends Component {
                   ? `Score: ${this.props.movie.score}`
                   : 'Score: -'}
               </div>
-              <button className="button alert" type="button" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</button>
             </div>
             <Route path={`/movies/:category/${this.props.movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
         </li>

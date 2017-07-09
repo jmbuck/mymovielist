@@ -10,6 +10,8 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
 }
 
 .Movie .info div {
@@ -42,6 +44,11 @@
 
 .Movie .button {
     margin-bottom: 0;
+}
+
+.Movie .button-group {
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .Movie .credits-button {

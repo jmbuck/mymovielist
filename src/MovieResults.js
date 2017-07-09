@@ -13,6 +13,8 @@ class MovieResults extends Component {
         }
     }
 
+    fetched = false
+
     componentWillMount() {
         const query = this.props.match.params.query
         const page = this.props.match.params.page
@@ -45,6 +47,7 @@ class MovieResults extends Component {
                         if(page > movies.total_pages) {
                             this.props.history.push(`/movies/new/${this.props.match.params.query}/1`)
                         }
+                        this.fetched = true
                     })
                 }
             )
@@ -74,7 +77,7 @@ class MovieResults extends Component {
                 }
 
                 {
-                this.state.results && this.state.results.length > 0 
+                this.state.results && this.state.results.length > 0
                     ? <ul>{this.state.results.map((result, i) => <MovieResult 
                                                                     key={i} 
                                                                     index={i}
@@ -83,7 +86,7 @@ class MovieResults extends Component {
                                                                     setAdded={this.setAdded} 
                                                                     {...this.props} 
                                                 />)}</ul>
-                    : <div>No results found.</div>
+                    : this.fetched ? <div>No results found.</div> : <div>Searching...</div>
                 }
 
                 {(() => {
