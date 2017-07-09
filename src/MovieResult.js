@@ -38,6 +38,15 @@ class MovieResult extends Component {
         year: "numeric",
         day: "numeric",
     }
+
+    let today = new Date()
+    let dd = today.getDate();
+    let mm = today.getMonth()+1;
+    let yyyy = today.getFullYear();
+  
+    if(dd<10) dd = '0'+dd
+    if(mm<10) mm = '0'+mm
+    today = `${yyyy}-${mm}-${dd}`
     
     return (
         <div className="more-info">
@@ -68,7 +77,14 @@ class MovieResult extends Component {
                       <input type="radio" name="category" value="dropped" />Dropped<br/>
                     </div>
                     <div className="optional">
-                      Date watched (optional): <input type="date" name="date" />
+                      <div className="date">
+                        Date watched: 
+                        <a onClick={() => {
+                          document.querySelector('.optional input').value = today
+                          }}>Insert Today
+                        </a>
+                        <input type="date" name="date" max={today}/>
+                      </div>
                       <select name="score">
                           <option value="">-- Score --</option>
                           <option value="10">10</option>

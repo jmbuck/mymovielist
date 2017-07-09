@@ -120,6 +120,14 @@ class Movie extends Component {
 
   renderEditForm = (navProps, movie) => {
     const category = this.props.category
+    let today = new Date()
+    let dd = today.getDate();
+    let mm = today.getMonth()+1;
+    let yyyy = today.getFullYear();
+  
+    if(dd<10) dd = '0'+dd
+    if(mm<10) mm = '0'+mm
+    today = `${yyyy}-${mm}-${dd}`
     return (
       <form onSubmit={(ev) => this.handleSubmit(movie, ev)}>
         <div className="edit-movie">
@@ -129,7 +137,7 @@ class Movie extends Component {
               <input type="radio" name="category" value="dropped" defaultChecked={category === 'dropped'}/>Dropped<br/>
             </div>
             <div className="others">
-              Date watched: <input type="date" name="date" defaultValue={movie.watched_date} />
+              Date watched: <input type="date" name="date" defaultValue={movie.watched_date} max={today}/>
               <select name="score" defaultValue={movie.score}>
                   <option value="">-- Score --</option>
                   <option value="10">10</option>
