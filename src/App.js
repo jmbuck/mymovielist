@@ -101,6 +101,24 @@ class App extends Component {
     movie.starring = starring
     delete movie.credits
   }
+
+  isDuplicate(input) {
+    const movies = {...this.state.movies}
+    if(movies['completed'] && movies['completed'][`movie-${input.movie.id}`]) {
+      input.message = `${input.movie.title} already exists in your completed list!`
+      return true;
+    } else if(movies['downloaded'] && movies['downloaded'][`movie-${input.movie.id}`]) {
+      input.message = `${input.movie.title} already exists in your downloaded list!`
+      return true;
+    } else if(movies['ptw'] && movies['ptw'][`movie-${input.movie.id}`]) {
+      input.message = `${input.movie.title} already exists in your plan to watch list!`
+      return true;
+    } else if(movies['dropped'] && movies['dropped'][`movie-${input.movie.id}`]) {
+      input.message = `${input.movie.title} already exists in your dropped list!`
+      return true;
+    } 
+    return false;
+  }
   
   addMovie = (movie, category) => {
     if(!movie.id) {
@@ -113,22 +131,20 @@ class App extends Component {
       movies[category] = {}
     }
 
-    let message =`${movie.title} was added to your list successfully!`
-    if(movies[category][`movie-${movie.id}`]) {
-      message = `${movie.title} already exists in your list!`
-      this.setState({ message })
-    } else {
-      this.setState({ message })
+    let newMovie = {movie, message: `${movie.title} was added to your list successfully!`}
+    if(!this.isDuplicate(newMovie)) {
+      this.setState({ message: newMovie.message })
       fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
         .then(response => response.json())
-        .then(newMovie => {
-            newMovie.watched_date = movie.watched_date
-            newMovie.score = movie.score
-            console.log(newMovie.credits)
-            this.trimCredits(newMovie)
-            movies[category][`movie-${movie.id}`] = newMovie
-            this.setState({ movies, message })
+        .then(detailedMovie => {
+            detailedMovie.watched_date = movie.watched_date
+            detailedMovie.score = movie.score
+            this.trimCredits(detailedMovie)
+            movies[category][`movie-${movie.id}`] = detailedMovie
+            this.setState({ movies })
       })
+    } else {
+      this.setState({ message: newMovie.message })
     }
   }
 
