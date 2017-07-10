@@ -9,7 +9,7 @@ class MovieList extends Component {
     super(props)
     this.state = {
       //0 is alphabetical, 1 is by date, 2 is by score
-      sortBy: 2,
+      sortBy: 0,
       ascending: true,
     }
   }
@@ -82,31 +82,38 @@ class MovieList extends Component {
 
   renderList = (category) => {
     const movies = this.props.movies[category]
-    const stats = {}
 
     if(!movies) return <div></div>
+    const stats = {}
     this.calculateStats(movies, stats)
 
     return (
       <div className="list">
-        <div className="stats">
-          <div>Total movies: {stats.total}</div>
-          <div>Total runtime: {stats.totalTime}</div>
-          <div>Mean runtime: {stats.meanTime}</div>
-          {category !== 'ptw' ? <div>Mean score: {stats.meanScore}</div> : <div></div>}
-        </div>
         <ul>
-          <li className="header">
-            <div onClick={() => {
-              this.setState({ sortBy: 0, ascending: !this.state.ascending })
-              }}><strong>TITLE</strong></div>
-            <div onClick={() => {
-              this.setState({ sortBy: 1, ascending: !this.state.ascending })
-            }}><strong>DATE WATCHED</strong></div>
-            <div onClick={() => {
-              this.setState({ sortBy: 2, ascending: !this.state.ascending })
-            }}><strong>SCORE</strong></div>
-          </li>
+          <div className="list-title Movie">
+            <li>
+              <div className="title">{category === 'ptw' ? 'plan to watch' : category}</div>
+              <div className="stats">
+                <span>Total movies: {stats.total}</span>
+                <span>Total runtime: {stats.totalTime}</span>
+                <span>Mean runtime: {stats.meanTime}</span>
+                {category !== 'ptw' ? <span>Mean score: {stats.meanScore}</span> : <span></span>}
+              </div>
+            </li>
+          </div>
+          <div className="header Movie">
+            <li>
+              <div onClick={() => {
+                this.setState({ sortBy: 0, ascending: !this.state.ascending })
+                }}><strong>TITLE</strong></div>
+              <div onClick={() => {
+                this.setState({ sortBy: 1, ascending: !this.state.ascending })
+              }}><strong>DATE WATCHED</strong></div>
+              <div onClick={() => {
+                this.setState({ sortBy: 2, ascending: !this.state.ascending })
+              }}><strong>SCORE</strong></div>
+            </li>
+          </div>
             {Object.keys(movies).sort((a, b) => this.sortMovies(movies, a, b)).map(movieId => <Movie 
                                                   key={movieId} 
                                                   category={category} 
