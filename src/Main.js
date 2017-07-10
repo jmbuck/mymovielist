@@ -16,6 +16,13 @@ const Main = (props) =>
             <Route path="/movies/completed" render={(navProps) => <MovieList {...props} list="completed" {...navProps} />}/>
             <Route path="/movies/ptw" render={(navProps) => <MovieList {...props} list="ptw" {...navProps} />}/>
             <Route path="/movies/dropped" render={(navProps) => <MovieList {...props} list="dropped" {...navProps} />}/>
+            <Route path="/movies" render={(navProps) => {
+              return (<div className="lists">
+                  <MovieList {...props} list="completed" {...navProps} />
+                  <MovieList {...props} list="ptw" {...navProps} />
+                  <MovieList {...props} list="dropped" {...navProps} /> 
+                </div>)
+            }}/>
         </Switch>
       </div>
     )

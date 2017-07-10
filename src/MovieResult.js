@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 
 import './MovieResult.css'
+import { movieKey } from './keys'
 
 class MovieResult extends Component {
 
@@ -17,14 +18,22 @@ class MovieResult extends Component {
   
   handleSubmit = (movie, ev) => {
       ev.preventDefault()
+      const newMovie = {}
       const category = ev.target.category.value
-      movie.watched_date = ev.target.date.value
+      newMovie.watched_date = ev.target.date.value
       const score = ev.target.score.value
-      score ? movie.score = parseInt(score, 10) : movie.score = 0
-
-      this.props.addMovie(movie, category)
-      this.props.history.push(`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`)
-      this.props.setAdded(true)
+      score ? newMovie.score = parseInt(score, 10) : newMovie.score = 0
+      newMovie.id = movie.id
+      newMovie.title = movie.title
+      //fetch details to get runtime (we need to store runtime in database to display total and mean runtime)
+      fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}`)
+        .then(response => response.json())
+        .then(movie => {
+          newMovie.runtime = movie.runtime
+          this.props.addMovie(newMovie, category)
+          this.props.history.push(`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`)
+          this.props.setAdded(true)
+      })
   }
 
   renderResultInfo = () => {

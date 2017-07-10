@@ -5,22 +5,27 @@ import { movieKey } from './keys'
 import './Movie.css'
 
 class Movie extends Component {
-
+  
+  constructor(props) {
+    super(props)
+    this.state = {
+      movie: this.props.movie,
+      cast: [],
+      crew: [],
+      fetched: false,
+    }
+  }
   options = {
     month: "long",
     year: "numeric",
     day: "numeric",
   }
 
-  cast = []
-  crew = []
-  fetched = false
-
   handleClick = (ev) => {
     const path = `/movies/${this.props.category}/${this.props.movie.id}`
     if(ev.target.classList.contains('credits-button')) { //Credits button is clicked
       if (this.props.location.pathname !== path+'/credits') {
-        this.showCredits(this.props.movie)
+        this.getMovieInfo(this.props.movie, path+'/credits')
       } else {
         this.props.history.push(path)
       }
@@ -32,22 +37,25 @@ class Movie extends Component {
       }
     } else if(ev.target.classList.contains('info') || ev.target.classList.contains('info-item')) { //Title bar of movie is clicked
       if(this.props.location.pathname !== path) {
-        this.props.history.push(path)
+        this.getMovieInfo(this.props.movie, path)
       } else {
         this.props.history.push(`/movies/${this.props.category}`)
       }
     } 
   }
 
-  showCredits = (movie) => {
-    fetch(`https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=${movieKey}`)
+  getMovieInfo = (movie, path) => {
+    fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
       .then(response => response.json())
-      .then(credits => {
-        this.cast = credits.cast
-        this.crew = credits.crew
-        this.fetched = true
-        this.props.history.push(`/movies/${this.props.category}/${movie.id}/credits`)
-    })
+      .then(movie => {
+        this.setState({ 
+                        movie, 
+                        cast: movie.credits.cast, 
+                        crew: movie.credits.crew, 
+                        fetched: true, 
+                      }, 
+        () => this.props.history.push(path))
+      })
   }
 
   handleSubmit = (movie, ev) => {
@@ -66,20 +74,17 @@ class Movie extends Component {
   }
 
   renderCredits = (navProps, movie) => {
-    if(!this.fetched) {
-      this.showCredits(movie)
-    }
-    if(!this.cast.length && !this.crew.length && this.fetched) {
+    if(!this.state.cast.length && !this.state.crew.length && this.state.fetched) {
       return <div className="credits">No credits to display</div>
     } else {
       return(
         <div className="credits">
           {
-            this.cast.length 
+            this.state.cast.length 
             ? (<div className="cast"> 
                 <div>CAST</div>
                 <ul>
-                  {this.cast.map((member, i) => {
+                  {this.state.cast.map((member, i) => {
                     if(i < 25 && member) {
                       return (
                         <li key={i}>
@@ -94,12 +99,12 @@ class Movie extends Component {
           : <div className="cast">No cast to display</div>
           }
           {
-            this.crew.length 
+            this.state.crew.length 
             ? (
               <div className="crew"> 
                 <div>CREW</div>
                 <ul>
-                  {this.crew.map((member, i) => {
+                  {this.state.crew.map((member, i) => {
                     if(i < 25 && member) {
                       return (
                         <li key={i}>
@@ -164,10 +169,13 @@ class Movie extends Component {
   }
 
   renderInfo = (navProps) => {
+    if(!this.state.fetched) {
+      this.getMovieInfo(this.props.movie, navProps.location.pathname)
+    }
     const category = navProps.match.params.category
 
-    const movie = this.props.movie
-    if(movie) {
+    const movie = this.state.movie
+    if(movie && this.state.fetched) {
       const path = `https://image.tmdb.org/t/p/w300${movie.poster_path}`
       const release_date = new Date(movie.release_date)
       release_date.setDate(release_date.getDate()+1)

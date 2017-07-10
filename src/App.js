@@ -136,19 +136,10 @@ class App extends Component {
 
     let newMovie = {movie, message: `${movie.title} was added to your list successfully!`}
     if(!this.isDuplicate(newMovie) || copy) {
-      this.setState({ message: newMovie.message })
-      fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
-        .then(response => response.json())
-        .then(detailedMovie => {
-            detailedMovie.watched_date = movie.watched_date
-            detailedMovie.score = movie.score
-            this.trimCredits(detailedMovie)
-            movies[category][`movie-${movie.id}`] = detailedMovie
-            this.setState({ movies })
-      })
-    } else {
-      this.setState({ message: newMovie.message })
+        movies[category][`movie-${movie.id}`] = movie
+        this.setState({ movies })
     }
+    this.setState({ message: newMovie.message })
   }
 
   delete = (category, movie) => {

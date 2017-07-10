@@ -3,3 +3,7 @@
     min-height: 100vh;
     align-items: stretch;
 }
+
+.Main .lists {
+    width: 100%;
+}

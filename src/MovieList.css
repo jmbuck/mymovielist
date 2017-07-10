@@ -2,7 +2,7 @@
     width: 100%;
 }
 
-.MovieList .list {
+.MovieList .list-container {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 }
@@ -54,16 +54,16 @@
     user-select: none;
 }
 
-.MovieList ul {
+.MovieList .list {
     list-style-type: none;
     margin-left: 0;
     width: 65%;
 }
 
-.MovieList ul div:nth-child(even) li {
+.MovieList .list div:nth-child(even) .item {
     background-color: #e6e6e6;
 }
 
-.MovieList ul .Movie+.Movie li {
+.MovieList .list div+div .item {
     border-top: none;
 }

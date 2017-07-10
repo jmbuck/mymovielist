@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 import './MovieList.css';
 import Movie from './Movie'
@@ -53,7 +53,7 @@ class MovieList extends Component {
     })
     stats.totalTime = this.formatDuration(totalTime)
     stats.meanTime = this.formatDuration(Math.floor(totalTime / totalWithTime))
-    stats.meanScore = (totalScore / totalWithScore).toFixed(2)
+    totalWithScore ? stats.meanScore = (totalScore / totalWithScore).toFixed(2) : stats.meanScore = 0
   }
 
   sortMovies = (movies, a, b) => {
@@ -85,21 +85,21 @@ class MovieList extends Component {
     this.calculateStats(movies, stats)
 
     return (
-      <div className="list">
-        <ul>
-          <div className="list-title Movie">
-            <li>
+      <div className="list-container">
+        <ul className="list">
+          <div className="list-title">
+            <li className="item">
               <div className="title">{category === 'ptw' ? 'plan to watch' : category}</div>
               <div className="stats">
                 <span>Total movies: {stats.total}</span>
-                <span>Total runtime: {stats.totalTime}</span>
-                <span>Mean runtime: {stats.meanTime}</span>
-                {category !== 'ptw' ? <span>Mean score: {stats.meanScore}</span> : <span></span>}
+                <span>Total runtime: {stats.totalTime ? stats.totalTime : '-'}</span>
+                <span>Mean runtime: {stats.meanTime ? stats.meanTime : '-'}</span>
+                {category !== 'ptw' ? <span>Mean score: {stats.meanScore ? stats.meanScore : '-'}</span> : <span></span>}
               </div>
             </li>
           </div>
-          <div className="header Movie">
-            <li>
+          <div className="header">
+            <li className="item">
               <div onClick={() => {
                 if(this.state.sortBy === 0) this.setState({ sortBy: 1 })
                 else this.setState({ sortBy: 0 })
@@ -128,11 +128,7 @@ class MovieList extends Component {
   render() {
     return (
       <div className="MovieList">
-        <Switch>
-            <Route path="/movies/completed" render={() => this.renderList('completed')} />
-            <Route path="/movies/ptw" render={() => this.renderList('ptw')} />
-            <Route path="/movies/dropped" render={() => this.renderList('dropped')} />
-        </Switch>
+        <Route render={() => this.renderList(this.props.list)} />
       </div>
     )
   }
