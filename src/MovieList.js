@@ -5,6 +5,14 @@ import './MovieList.css';
 import Movie from './Movie'
 
 class MovieList extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      //0 is alphabetical, 1 is by date, 2 is by score
+      sortBy: 2,
+      ascending: true,
+    }
+  }
 
   formatDuration = (totalTime) => {
     let minutes = totalTime
@@ -28,19 +36,48 @@ class MovieList extends Component {
     const keys = Object.keys(movies)
     stats.total = keys.length
     let totalTime = 0;
+    let totalWithTime = 0;
     let totalScore = 0;
-    let totalScored = 0;
+    let totalWithScore = 0;
     keys.map(movieId => {
       const movie = movies[movieId]
-      console.log(movie.runtime+' '+movie.title)
-      if(movie.runtime) totalTime += parseInt(movie.runtime, 10)
+      if(movie.runtime) {
+        totalTime += parseInt(movie.runtime, 10)
+        totalWithTime++;
+      } 
       if(movie.score) {
         totalScore += movie.score
-        totalScored++;
+        totalWithScore++;
       } 
     })
     stats.totalTime = this.formatDuration(totalTime)
-    stats.meanScore = (totalScore / totalScored).toFixed(2)
+    stats.meanTime = this.formatDuration(Math.floor(totalTime / totalWithTime))
+    stats.meanScore = (totalScore / totalWithScore).toFixed(2)
+  }
+
+  sortMovies = (movies, a, b) => {
+    switch(this.state.sortBy) {
+      case 0: //Alphabetical
+        if(this.state.ascending) {
+          return movies[a].title < movies[b].title ? -1 : movies[a].title > movies[b].title
+        } else {
+          return movies[b].title < movies[a].title ? -1 : movies[b].title > movies[a].title
+        }
+      case 1: //Watch date
+        if(this.state.ascending) { //recent first
+          return movies[b].watched_date < movies[a].watched_date ? -1 : movies[b].watched_date > movies[a].watched_date
+        } else {
+          return movies[a].watched_date < movies[b].watched_date ? -1 : movies[a].watched_date > movies[b].watched_date
+        }
+      case 2: //Score
+        if(this.state.ascending) { //highest first
+          return movies[b].score - movies[a].score
+        } else {
+          return movies[a].score - movies[b].score
+        }
+      default:
+        return movies[a].title < movies[b].title ? -1 : movies[a].title > movies[b].title
+    }
   }
 
   renderList = (category) => {
@@ -55,10 +92,22 @@ class MovieList extends Component {
         <div className="stats">
           <div>Total movies: {stats.total}</div>
           <div>Total runtime: {stats.totalTime}</div>
+          <div>Mean runtime: {stats.meanTime}</div>
           {category !== 'ptw' ? <div>Mean score: {stats.meanScore}</div> : <div></div>}
         </div>
         <ul>
-            {Object.keys(movies).map(movieId => <Movie 
+          <li className="header">
+            <div onClick={() => {
+              this.setState({ sortBy: 0, ascending: !this.state.ascending })
+              }}><strong>TITLE</strong></div>
+            <div onClick={() => {
+              this.setState({ sortBy: 1, ascending: !this.state.ascending })
+            }}><strong>DATE WATCHED</strong></div>
+            <div onClick={() => {
+              this.setState({ sortBy: 2, ascending: !this.state.ascending })
+            }}><strong>SCORE</strong></div>
+          </li>
+            {Object.keys(movies).sort((a, b) => this.sortMovies(movies, a, b)).map(movieId => <Movie 
                                                   key={movieId} 
                                                   category={category} 
                                                   movie={movies[movieId]} 

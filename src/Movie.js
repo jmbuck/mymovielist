@@ -250,13 +250,13 @@ class Movie extends Component {
             <div className="info">
               <div className="info-item">{this.props.movie.title}</div>
               { this.props.movie.watched_date 
-                ? <div className="info-item">Watched: {watched_date.toLocaleDateString("en-US", this.options)}</div>
+                ? <div className="info-item">{watched_date.toLocaleDateString("en-US", this.options)}</div>
                 : <div className="info-item"></div>
               } 
-              <div className="info-item">
+              <div className="info-item score">
                 {this.props.movie.score 
-                  ? `Score: ${this.props.movie.score}`
-                  : 'Score: -'}
+                  ? `${this.props.movie.score}`
+                  : '-'}
               </div>
             </div>
             <Route path={`/movies/:category/${this.props.movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>

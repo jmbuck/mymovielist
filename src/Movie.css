@@ -2,7 +2,6 @@
     border: 1px solid black;
     display: flex;
     flex-direction: column;
-    width: 65%;
 }
 
 .Movie .info {
@@ -16,6 +15,10 @@
 
 .Movie .info div {
     width: 25%;
+}
+
+.Movie .info .score {
+    padding-left: 1rem;
 }
 
 .Movie .more-info .main {

@@ -7,9 +7,28 @@
     padding-right: 1.5rem;
 }
 
+.MovieList .header {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.MovieList .header div {
+    width: 25%;
+}
+
 .MovieList ul {
     list-style-type: none;
     margin-left: 0;
+    width: 65%;
+}
+
+.MovieList ul div:nth-child(even) li {
+    background-color: #e6e6e6;
 }
 
 .MovieList ul .Movie {
