@@ -107,9 +107,6 @@ class App extends Component {
     if(movies['completed'] && movies['completed'][`movie-${input.movie.id}`]) {
       input.message = `${input.movie.title} already exists in your completed list!`
       return true;
-    } else if(movies['downloaded'] && movies['downloaded'][`movie-${input.movie.id}`]) {
-      input.message = `${input.movie.title} already exists in your downloaded list!`
-      return true;
     } else if(movies['ptw'] && movies['ptw'][`movie-${input.movie.id}`]) {
       input.message = `${input.movie.title} already exists in your plan to watch list!`
       return true;

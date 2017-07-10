@@ -8,9 +8,10 @@ class MovieList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      //0 is alphabetical, 1 is by date, 2 is by score
+      //0 is ascending alphabetical, 1 is descending alphabetical
+      //2 is ascending date, 3 is descending date
+      //4 is ascending score, 5 is descending score
       sortBy: 0,
-      ascending: true,
     }
   }
 
@@ -58,23 +59,19 @@ class MovieList extends Component {
   sortMovies = (movies, a, b) => {
     switch(this.state.sortBy) {
       case 0: //Alphabetical
-        if(this.state.ascending) {
-          return movies[a].title < movies[b].title ? -1 : movies[a].title > movies[b].title
-        } else {
-          return movies[b].title < movies[a].title ? -1 : movies[b].title > movies[a].title
-        }
-      case 1: //Watch date
-        if(this.state.ascending) { //recent first
+        return movies[a].title < movies[b].title ? -1 : movies[a].title > movies[b].title
+      case 1:
+        return movies[b].title < movies[a].title ? -1 : movies[b].title > movies[a].title
+      case 2: //Watch date
+          //recent first is ascending
           return movies[b].watched_date < movies[a].watched_date ? -1 : movies[b].watched_date > movies[a].watched_date
-        } else {
+      case 3:
           return movies[a].watched_date < movies[b].watched_date ? -1 : movies[a].watched_date > movies[b].watched_date
-        }
-      case 2: //Score
-        if(this.state.ascending) { //highest first
+      case 4: //Score
+          //highest first is ascending
           return movies[b].score - movies[a].score
-        } else {
+      case 5:
           return movies[a].score - movies[b].score
-        }
       default:
         return movies[a].title < movies[b].title ? -1 : movies[a].title > movies[b].title
     }
@@ -104,13 +101,16 @@ class MovieList extends Component {
           <div className="header Movie">
             <li>
               <div onClick={() => {
-                this.setState({ sortBy: 0, ascending: !this.state.ascending })
+                if(this.state.sortBy === 0) this.setState({ sortBy: 1 })
+                else this.setState({ sortBy: 0 })
                 }}><strong>TITLE</strong></div>
               <div onClick={() => {
-                this.setState({ sortBy: 1, ascending: !this.state.ascending })
+                if(this.state.sortBy === 2) this.setState({ sortBy: 3 })
+                else this.setState({ sortBy: 2 })
               }}><strong>DATE WATCHED</strong></div>
               <div onClick={() => {
-                this.setState({ sortBy: 2, ascending: !this.state.ascending })
+                if(this.state.sortBy === 4) this.setState({ sortBy: 5 })
+                else this.setState({ sortBy: 4 })
               }}><strong>SCORE</strong></div>
             </li>
           </div>
@@ -130,7 +130,6 @@ class MovieList extends Component {
       <div className="MovieList">
         <Switch>
             <Route path="/movies/completed" render={() => this.renderList('completed')} />
-            <Route path="/movies/downloaded" render={() => this.renderList('downloaded')} />
             <Route path="/movies/ptw" render={() => this.renderList('ptw')} />
             <Route path="/movies/dropped" render={() => this.renderList('dropped')} />
         </Switch>

@@ -16,9 +16,6 @@ const Sidebar = ({ signOut }) =>
                 <Link to="/movies/completed" className="completed">
                   <button className="button" type="button">Completed Movies</button>
                 </Link>
-                <Link to="/movies/downloaded" className="downloaded">
-                  <button className="button" type="button">Downloaded Movies</button>
-                </Link>
                 <Link to="/movies/ptw" className="ptw">
                   <button className="button" type="button">Plan To Watch</button>
                 </Link>
