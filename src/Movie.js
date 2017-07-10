@@ -49,6 +49,8 @@ class Movie extends Component {
       .then(response => response.json())
       .then(detailedMovie => {
         this.getMainCredits(detailedMovie)
+        detailedMovie.score = movie.score
+        detailedMovie.watched_date = movie.watched_date
         this.setState({ 
                         movie: detailedMovie, 
                         cast: detailedMovie.credits.cast, 
@@ -88,15 +90,24 @@ class Movie extends Component {
 
   handleSubmit = (movie, ev) => {
     ev.preventDefault()
+    console.log(movie)
     const category = ev.target.category.value
     movie.watched_date = ev.target.date.value
     const score = ev.target.score.value
     score ? movie.score = parseInt(score, 10) : movie.score = 0
     if(category !== this.props.category) {
-      this.props.addMovie(movie, category, true)
+      this.props.addMovie({ id: movie.id, 
+                             runtime: movie.runtime,
+                             score: movie.score,
+                             title: movie.title,
+                             watched_date: movie.watched_date}, category, true)
       this.props.delete(this.props.category, movie)
     } else {
-      this.props.saveMovie(movie, category)
+      this.props.saveMovie({ id: movie.id, 
+                             runtime: movie.runtime,
+                             score: movie.score,
+                             title: movie.title,
+                             watched_date: movie.watched_date}, category)
     }
     this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
   }
