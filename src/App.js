@@ -72,36 +72,6 @@ class App extends Component {
       this.setState({ uid: user.uid }, this.syncMovies)
    }
 
-  trimCredits = (movie) => {
-    //To save space on Firebase, only store small portion of credits
-    let directors = []
-    let screenplay = []
-    let writers = []
-    let starring = ""
-    if(movie.credits) {
-      if(movie.credits.crew.length > 0) {
-        movie.credits.crew.map((member, i) => {
-          if(member.job === 'Director') directors.push(member.name)
-          if(member.job === 'Screenplay') screenplay.push(member.name)
-          if(member.job === 'Writer') writers.push(member.name)
-        })
-      }  
-      if(movie.credits.cast.length > 0) {
-        const cast = movie.credits.cast
-        starring = cast[0].name
-        for(let i = 1; i < 3; i++) {
-          if(cast[i])
-            starring += ', ' + cast[i].name
-        }
-      }    
-    }
-    movie.directors = directors.toString().replace(/,/g, ', ')
-    movie.screenplay = screenplay.toString().replace(/,/g, ', ')
-    movie.writers = writers.toString().replace(/,/g, ', ')
-    movie.starring = starring
-    delete movie.credits
-  }
-
   isDuplicate(input) {
     const movies = {...this.state.movies}
     if(movies['completed'] && movies['completed'][`movie-${input.movie.id}`]) {

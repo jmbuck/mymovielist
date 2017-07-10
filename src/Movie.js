@@ -47,15 +47,43 @@ class Movie extends Component {
   getMovieInfo = (movie, path) => {
     fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
       .then(response => response.json())
-      .then(movie => {
+      .then(detailedMovie => {
+        this.getMainCredits(detailedMovie)
         this.setState({ 
-                        movie, 
-                        cast: movie.credits.cast, 
-                        crew: movie.credits.crew, 
+                        movie: detailedMovie, 
+                        cast: detailedMovie.credits.cast, 
+                        crew: detailedMovie.credits.crew, 
                         fetched: true, 
                       }, 
         () => this.props.history.push(path))
       })
+  }
+
+  getMainCredits = (detailedMovie) => {
+    let directors = []
+    let screenplay = []
+    let writers = []
+    let starring = []
+    if(detailedMovie.credits) {
+      if(detailedMovie.credits.crew.length > 0) {
+        detailedMovie.credits.crew.map((member, i) => {
+          if(member.job === 'Director') directors.push(member.name)
+          if(member.job === 'Screenplay') screenplay.push(member.name)
+          if(member.job === 'Writer') writers.push(member.name)
+        })
+      }  
+      if(detailedMovie.credits.cast.length > 0) {
+        const cast = detailedMovie.credits.cast
+        for(let i = 0; i < 3; i++) {
+          if(cast[i])
+            starring.push(cast[i].name)
+        }
+      }    
+    }
+    detailedMovie.directors = directors.toString().replace(/,/g, ', ')
+    detailedMovie.screenplay = screenplay.toString().replace(/,/g, ', ')
+    detailedMovie.writers = writers.toString().replace(/,/g, ', ')
+    detailedMovie.starring = starring.toString().replace(/,/g, ', ')
   }
 
   handleSubmit = (movie, ev) => {
