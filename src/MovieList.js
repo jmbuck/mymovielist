@@ -40,17 +40,17 @@ class MovieList extends Component {
     let totalWithTime = 0;
     let totalScore = 0;
     let totalWithScore = 0;
-    keys.map(movieId => {
+    for(const movieId of keys) {
       const movie = movies[movieId]
       if(movie.runtime) {
-        totalTime += parseInt(movie.runtime, 10)
+        totalTime += movie.runtime * ((movie.rewatches ? parseInt(movie.rewatches, 10) : 0) + 1)
         totalWithTime++;
       } 
       if(movie.score) {
         totalScore += movie.score
         totalWithScore++;
       } 
-    })
+    }
     stats.totalTime = this.formatDuration(totalTime)
     stats.meanTime = this.formatDuration(Math.floor(totalTime / totalWithTime))
     totalWithScore ? stats.meanScore = (totalScore / totalWithScore).toFixed(2) : stats.meanScore = 0

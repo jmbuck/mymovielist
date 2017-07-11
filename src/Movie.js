@@ -69,11 +69,11 @@ class Movie extends Component {
     let starring = []
     if(detailedMovie.credits) {
       if(detailedMovie.credits.crew.length > 0) {
-        detailedMovie.credits.crew.map((member, i) => {
+        for(const member of detailedMovie.credits.crew) {
           if(member.job === 'Director') directors.push(member.name)
           if(member.job === 'Screenplay') screenplay.push(member.name)
           if(member.job === 'Writer') writers.push(member.name)
-        })
+        }
       }  
       if(detailedMovie.credits.cast.length > 0) {
         const cast = detailedMovie.credits.cast
@@ -128,14 +128,15 @@ class Movie extends Component {
             ? (<div className="cast"> 
                 <div>CAST</div>
                 <ul>
-                  {this.state.cast.map((member, i) => {
-                    if(i < 25 && member) {
+                  {this.state.cast.slice(0, 25).map((member, i) => {
+                    if(member) {
                       return (
                         <li key={i}>
                           {member.name} as {member.character}
                         </li>
                       )
                     }
+                    return <li key={i}></li>
                   })}
                 </ul>
               </div>
@@ -148,14 +149,15 @@ class Movie extends Component {
               <div className="crew"> 
                 <div>CREW</div>
                 <ul>
-                  {this.state.crew.map((member, i) => {
-                    if(i < 25 && member) {
+                  {this.state.crew.slice(0, 25).map((member, i) => {
+                    if(member) {
                       return (
                         <li key={i}>
                           {member.job} - {member.name}
                         </li>
                       )
                     }
+                    return <li key={i}></li>
                   })}
                 </ul>
               </div>

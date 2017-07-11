@@ -4,7 +4,7 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 import './App.css';
 import Main from './Main'
 import SignIn from './SignIn'
-import base, { auth, movieKey } from './keys'
+import base, { auth } from './keys'
 
 //http://paletton.com/#uid=64i0u0kllllaFw0g0qFqFg0w0aF
 
