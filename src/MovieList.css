@@ -57,7 +57,7 @@
 .MovieList .list {
     list-style-type: none;
     margin-left: 0;
-    width: 65%;
+    width: 80%;
 }
 
 .MovieList .list div:nth-child(even) .item {

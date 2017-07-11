@@ -6,8 +6,16 @@
 }
 
 .MovieResult .info {
-    padding: 0.25rem;
+    display: flex;
+    flex-direction: row;
     padding-left: 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.MovieResult .info .button {
+    margin-bottom: 0;
+    align-self: flex-end;
 }
 
 .MovieResult .more-info {

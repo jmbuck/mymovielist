@@ -51,6 +51,7 @@ class Movie extends Component {
         this.getMainCredits(detailedMovie)
         detailedMovie.score = movie.score
         detailedMovie.watched_date = movie.watched_date
+        detailedMovie.rewatches = movie.rewatches
         this.setState({ 
                         movie: detailedMovie, 
                         cast: detailedMovie.credits.cast, 
@@ -90,14 +91,17 @@ class Movie extends Component {
 
   handleSubmit = (movie, ev) => {
     ev.preventDefault()
-    console.log(movie)
     const category = ev.target.category.value
     movie.watched_date = ev.target.date.value
     const score = ev.target.score.value
+    const rewatches = ev.target.rewatches.value
     score ? movie.score = parseInt(score, 10) : movie.score = 0
+    rewatches && !isNaN(rewatches) ? movie.rewatches = parseInt(rewatches, 10) : movie.rewatches = 0
+
     if(category !== this.props.category) {
       this.props.addMovie({ id: movie.id, 
                              runtime: movie.runtime,
+                             rewatches: movie.rewatches,
                              score: movie.score,
                              title: movie.title,
                              watched_date: movie.watched_date}, category, true)
@@ -105,6 +109,7 @@ class Movie extends Component {
     } else {
       this.props.saveMovie({ id: movie.id, 
                              runtime: movie.runtime,
+                             rewatches: movie.rewatches,
                              score: movie.score,
                              title: movie.title,
                              watched_date: movie.watched_date}, category)
@@ -195,6 +200,7 @@ class Movie extends Component {
                   <option value="2">2</option>
                   <option value="1">1</option>
               </select>
+              Rewatches: <input type="text" name="rewatches" placeholder="# of rewatches"/>
             </div>
           </div>
           <div className="stacked-for-small radius button-group">
@@ -266,6 +272,11 @@ class Movie extends Component {
                     }
                   </div>)
                 : <div className="genres"></div>
+              }
+
+              {
+                movie.rewatches 
+                ? <div className="rewatches"># of rewatches: {movie.rewatches}</div> : <div className="rewatches"></div>
               }
 
               {
