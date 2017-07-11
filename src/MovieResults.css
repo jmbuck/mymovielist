@@ -19,3 +19,15 @@
     margin: 0 auto 1rem auto;
     padding: 1.5rem;
 }
+
+.MovieResults .page-number {
+    padding-left: 1rem;
+}
+
+.MovieResults .page {
+    margin-bottom: 1rem;
+}
+
+.MovieResults .page .button {
+    margin-bottom: 0;
+}

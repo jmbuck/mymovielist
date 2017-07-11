@@ -4,7 +4,7 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 import './App.css';
 import Main from './Main'
 import SignIn from './SignIn'
-import base, { auth } from './keys'
+import base, { auth, movieKey } from './keys'
 
 //http://paletton.com/#uid=64i0u0kllllaFw0g0qFqFg0w0aF
 
@@ -87,6 +87,48 @@ class App extends Component {
     return false;
   }
 
+  getMovieInfo = (movie, path, updateState) => {
+    fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
+      .then(response => response.json())
+      .then(detailedMovie => {
+        this.getMainCredits(detailedMovie)
+        detailedMovie.score = movie.score
+        detailedMovie.watched_date = movie.watched_date
+        detailedMovie.rewatches = movie.rewatches
+        const newState = { 
+                  movie: detailedMovie, 
+                  cast: detailedMovie.credits.cast, 
+                  crew: detailedMovie.credits.crew, 
+                  fetched: true, 
+                }
+        updateState(newState, path)
+      })
+  }
+
+  getMainCredits = (detailedMovie) => {
+    let directors = [], screenplay = [], writers = [], starring = []
+    if(detailedMovie.credits) {
+      if(detailedMovie.credits.crew.length > 0) {
+        for(const member of detailedMovie.credits.crew) {
+          if(member.job === 'Director') directors.push(member.name)
+          if(member.job === 'Screenplay') screenplay.push(member.name)
+          if(member.job === 'Writer') writers.push(member.name)
+        }
+      }  
+      if(detailedMovie.credits.cast.length > 0) {
+        const cast = detailedMovie.credits.cast
+        for(let i = 0; i < 3; i++) {
+          if(cast[i])
+            starring.push(cast[i].name)
+        }
+      }    
+    }
+    detailedMovie.directors = directors.toString().replace(/,/g, ', ')
+    detailedMovie.screenplay = screenplay.toString().replace(/,/g, ', ')
+    detailedMovie.writers = writers.toString().replace(/,/g, ', ')
+    detailedMovie.starring = starring.toString().replace(/,/g, ', ')
+  }
+
   saveMovie = (movie, category) => {
     const movies = {...this.state.movies}
     movies[category][`movie-${movie.id}`] = movie
@@ -130,6 +172,7 @@ class App extends Component {
                 message={this.state.message} 
                 saveMovie={this.saveMovie} 
                 addMovie={this.addMovie} 
+                getMovieInfo={this.getMovieInfo}
                 delete={this.delete} 
                 signOut={this.signOut}
               />

@@ -10,6 +10,7 @@
     padding-left: 1rem;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .MovieResult .info .button {
@@ -19,10 +20,15 @@
 
 .MovieResult .more-info {
     display: flex;
+    flex-direction: column;
+}
+
+.MovieResult .more-info .main {
+    display: flex;
     flex-direction: row;
 }
 
-.MovieResult .more-info img {
+.MovieResult .more-info .main img {
     width: 200px;
     height: 100%;
     margin: 0rem 1rem 1rem 1rem
@@ -58,6 +64,5 @@
 }
 
 .MovieResult .more-info .button {
-    margin-bottom: 0;
     width: 30%;
 }

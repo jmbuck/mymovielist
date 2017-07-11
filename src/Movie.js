@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 
-import { movieKey } from './keys'
 import './Movie.css'
 
 class Movie extends Component {
@@ -25,7 +24,7 @@ class Movie extends Component {
     const path = `/movies/${this.props.category}/${this.props.movie.id}`
     if(ev.target.classList.contains('credits-button')) { //Credits button is clicked
       if (this.props.location.pathname !== path+'/credits') {
-        this.getMovieInfo(this.props.movie, path+'/credits')
+        this.props.history.push(path+'/credits')
       } else {
         this.props.history.push(path)
       }
@@ -37,56 +36,15 @@ class Movie extends Component {
       }
     } else if(ev.target.classList.contains('info') || ev.target.classList.contains('info-item')) { //Title bar of movie is clicked
       if(this.props.location.pathname !== path) {
-        this.getMovieInfo(this.props.movie, path)
+        this.props.getMovieInfo(this.props.movie, path, this.updateState)
       } else {
         this.props.history.push(`/movies/${this.props.category}`)
       }
     } 
   }
 
-  getMovieInfo = (movie, path) => {
-    fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
-      .then(response => response.json())
-      .then(detailedMovie => {
-        this.getMainCredits(detailedMovie)
-        detailedMovie.score = movie.score
-        detailedMovie.watched_date = movie.watched_date
-        detailedMovie.rewatches = movie.rewatches
-        this.setState({ 
-                        movie: detailedMovie, 
-                        cast: detailedMovie.credits.cast, 
-                        crew: detailedMovie.credits.crew, 
-                        fetched: true, 
-                      }, 
-        () => this.props.history.push(path))
-      })
-  }
-
-  getMainCredits = (detailedMovie) => {
-    let directors = []
-    let screenplay = []
-    let writers = []
-    let starring = []
-    if(detailedMovie.credits) {
-      if(detailedMovie.credits.crew.length > 0) {
-        for(const member of detailedMovie.credits.crew) {
-          if(member.job === 'Director') directors.push(member.name)
-          if(member.job === 'Screenplay') screenplay.push(member.name)
-          if(member.job === 'Writer') writers.push(member.name)
-        }
-      }  
-      if(detailedMovie.credits.cast.length > 0) {
-        const cast = detailedMovie.credits.cast
-        for(let i = 0; i < 3; i++) {
-          if(cast[i])
-            starring.push(cast[i].name)
-        }
-      }    
-    }
-    detailedMovie.directors = directors.toString().replace(/,/g, ', ')
-    detailedMovie.screenplay = screenplay.toString().replace(/,/g, ', ')
-    detailedMovie.writers = writers.toString().replace(/,/g, ', ')
-    detailedMovie.starring = starring.toString().replace(/,/g, ', ')
+  updateState = (newState, path) => {
+    this.setState(newState, () => this.props.history.push(path))
   }
 
   handleSubmit = (movie, ev) => {
@@ -217,7 +175,7 @@ class Movie extends Component {
 
   renderInfo = (navProps) => {
     if(!this.state.fetched) {
-      this.getMovieInfo(this.props.movie, navProps.location.pathname)
+      this.props.getMovieInfo(this.props.movie, navProps.location.pathname, this.updateState)
     }
     const category = navProps.match.params.category
 

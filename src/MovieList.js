@@ -22,10 +22,10 @@ class MovieList extends Component {
     let days = Math.floor(hours / 24) 
     hours = hours % 24
     let output = ""
-    if(days) output += `${days} days, `
-    if(hours) output += `${hours} hours, `
+    if(days) output += `${days} ${days === 1 ? 'day' : 'days'}, `
+    if(hours) output += `${hours} ${hours === 1 ? 'hour' : 'hours'}, `
     if(minutes) {
-      output += `${minutes} minutes`
+      output += `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`
     } else {
       //Cut out ending comma and space
       output = output.substr(0, output.length-2)
@@ -59,9 +59,9 @@ class MovieList extends Component {
   sortMovies = (movies, a, b) => {
     switch(this.state.sortBy) {
       case 0: //Alphabetical
-        return movies[a].title < movies[b].title ? -1 : movies[a].title > movies[b].title
+        return movies[a].title.toUpperCase() < movies[b].title.toUpperCase() ? -1 : movies[a].title.toUpperCase() > movies[b].title.toUpperCase()
       case 1:
-        return movies[b].title < movies[a].title ? -1 : movies[b].title > movies[a].title
+        return movies[b].title.toUpperCase() < movies[a].title.toUpperCase() ? -1 : movies[b].title.toUpperCase() > movies[a].title.toUpperCase()
       case 2: //Watch date
           //recent first is ascending
           return movies[b].watched_date < movies[a].watched_date ? -1 : movies[b].watched_date > movies[a].watched_date
@@ -73,7 +73,7 @@ class MovieList extends Component {
       case 5:
           return movies[a].score - movies[b].score
       default:
-        return movies[a].title < movies[b].title ? -1 : movies[a].title > movies[b].title
+        return movies[a].title.toUpperCase() < movies[b].title.toUpperCase() ? -1 : movies[a].title.toUpperCase() > movies[b].title.toUpperCase()
     }
   }
 

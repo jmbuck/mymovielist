@@ -69,7 +69,6 @@ class MovieResults extends Component {
     render() {
         return (
             <div className="MovieResults">
-
                 {
                 this.state.added 
                     ? <div className="added">{this.props.message}</div>
@@ -88,16 +87,17 @@ class MovieResults extends Component {
                                                 />)}</ul>
                     : this.fetched ? <div>No results found.</div> : <div>Searching...</div>
                 }
-
-                {(() => {
-                    if(this.props.match.params.page > 1) {
-                        return <button className="button warning" type="button" onClick={this.moveBack}>{'<'}</button>
-                }})()}
-                {(() => {  
-                    if(this.props.match.params.page < this.state.totalPages) {
-                        return <button className="button warning" type="button" onClick={this.moveForward}>></button>
-                }})()}
-                <span className="page">Page {this.props.match.params.page} of {this.state.totalPages}</span>
+                <div className="page">
+                    {(() => {
+                        if(this.props.match.params.page > 1) {
+                            return <button className="button warning" type="button" onClick={this.moveBack}>{'<'}</button>
+                    }})()}
+                    {(() => {  
+                        if(this.props.match.params.page < this.state.totalPages) {
+                            return <button className="button warning" type="button" onClick={this.moveForward}>></button>
+                    }})()}
+                    <span className="page-number">Page {this.props.match.params.page} of {this.state.totalPages}</span>
+                </div>
             </div>
         );
     }

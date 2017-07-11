@@ -1,12 +1,13 @@
 .SignOut {
-    position: absolute;
     bottom: 2rem;
+    position: fixed;
 }
 
 .SignOut button {
     outline: none;
 }
 
-.SignOut button i.fa {
+.SignOut button i {
+    color: #D4C46A;
     font-size: 3rem;
 }
