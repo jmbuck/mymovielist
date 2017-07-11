@@ -104,7 +104,7 @@ class App extends Component {
       movies[category] = {}
     }
 
-    let newMovie = {movie, message: `${movie.title} was added to your list successfully!`}
+    let newMovie = {movie, message: `${movie.title} was successfully added to your ${category === 'ptw' ? 'plan to watch' : category} list!`}
     if(!this.isDuplicate(newMovie) || copy) {
         movies[category][`movie-${movie.id}`] = movie
         this.setState({ movies })

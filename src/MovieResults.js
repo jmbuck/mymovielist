@@ -73,7 +73,7 @@ class MovieResults extends Component {
                 {
                 this.state.added 
                     ? <div className="added">{this.props.message}</div>
-                    : <div className="added"></div>
+                    : <div></div>
                 }
 
                 {

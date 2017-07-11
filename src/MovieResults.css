@@ -1,15 +1,21 @@
+.MovieResults {
+    width: 70%;
+}
+
 .MovieResults ul {
     list-style-type: none;
+    margin-left: 0;
 }
 
 .MovieResults ul .MovieResult+.MovieResult {
     padding-top: 0.5rem;
 } 
 
-.MovieResults .page {
-    margin-left: 1rem;
-}
-
-.MovieResults .button.warning {
-    margin-left: 1rem;
+.MovieResults .added {
+    border: 1px solid black;
+    margin-bottom: 1rem;
+    text-align: center;
+    width: 60%;
+    margin: 0 auto 1rem auto;
+    padding: 1.5rem;
 }

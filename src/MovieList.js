@@ -44,8 +44,8 @@ class MovieList extends Component {
       const movie = movies[movieId]
       if(movie.runtime) {
         totalTime += movie.runtime * ((movie.rewatches ? parseInt(movie.rewatches, 10) : 0) + 1)
-        totalWithTime++;
-      } 
+        totalWithTime += ((movie.rewatches ? parseInt(movie.rewatches, 10) : 0) + 1);
+      }
       if(movie.score) {
         totalScore += movie.score
         totalWithScore++;
