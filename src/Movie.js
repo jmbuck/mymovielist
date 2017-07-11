@@ -96,7 +96,7 @@ class Movie extends Component {
     const score = ev.target.score.value
     const rewatches = ev.target.rewatches.value
     score ? movie.score = parseInt(score, 10) : movie.score = 0
-    rewatches && !isNaN(rewatches) ? movie.rewatches = parseInt(rewatches, 10) : movie.rewatches = 0
+    rewatches && !isNaN(rewatches) && rewatches > 0 ? movie.rewatches = parseInt(rewatches, 10) : movie.rewatches = 0
 
     if(category !== this.props.category) {
       this.props.addMovie({ id: movie.id, 
@@ -200,7 +200,7 @@ class Movie extends Component {
                   <option value="2">2</option>
                   <option value="1">1</option>
               </select>
-              Rewatches: <input type="text" name="rewatches" placeholder="# of rewatches"/>
+              Rewatches: <input type="text" name="rewatches" defaultValue={movie.rewatches} placeholder="# of rewatches"/>
             </div>
           </div>
           <div className="stacked-for-small radius button-group">
