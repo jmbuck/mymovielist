@@ -8,6 +8,12 @@ const MovieInfo = (props) =>
     const path = `https://image.tmdb.org/t/p/w300${movie.poster_path}`
     const release_date = new Date(movie.release_date)
     release_date.setDate(release_date.getDate()+1)
+    const options = {
+        month: "long",
+        year: "numeric",
+        day: "numeric",
+    }
+
     return (
     <div className="MovieInfo">
         <div className="main">
@@ -39,7 +45,7 @@ const MovieInfo = (props) =>
             }
             {
             movie.release_date 
-            ? <div className="date">Released: {release_date.toLocaleDateString("en-US", this.options)}</div>
+            ? <div className="date">Released: {release_date.toLocaleDateString("en-US", options)}</div>
             : <div className="date">Unknown release date</div>
             }
             

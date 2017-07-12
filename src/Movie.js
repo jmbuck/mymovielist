@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom'
 
 import './Movie.css'
 import MovieInfo from './MovieInfo'
+import MovieCredits from './MovieCredits'
 
 class Movie extends Component {
   
@@ -14,11 +15,6 @@ class Movie extends Component {
       crew: [],
       fetched: false,
     }
-  }
-  options = {
-    month: "long",
-    year: "numeric",
-    day: "numeric",
   }
 
   handleClick = (ev) => {
@@ -74,58 +70,6 @@ class Movie extends Component {
                              watched_date: movie.watched_date}, category)
     }
     this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
-  }
-
-  renderCredits = (navProps, movie) => {
-    if(!this.state.cast.length && !this.state.crew.length && this.state.fetched) {
-      return <div className="credits">No credits to display</div>
-    } else {
-      return(
-        <div className="credits">
-          {
-            this.state.cast.length 
-            ? (<div className="cast"> 
-                <div>CAST</div>
-                <ul>
-                  {this.state.cast.slice(0, 25).map((member, i) => {
-                    if(member) {
-                      return (
-                        <li key={i}>
-                          {member.name} as {member.character}
-                        </li>
-                      )
-                    }
-                    return <li key={i}></li>
-                  })}
-                </ul>
-              </div>
-              )
-          : <div className="cast">No cast to display</div>
-          }
-          {
-            this.state.crew.length 
-            ? (
-              <div className="crew"> 
-                <div>CREW</div>
-                <ul>
-                  {this.state.crew.slice(0, 25).map((member, i) => {
-                    if(member) {
-                      return (
-                        <li key={i}>
-                          {member.job} - {member.name}
-                        </li>
-                      )
-                    }
-                    return <li key={i}></li>
-                  })}
-                </ul>
-              </div>
-            )
-            : <div className="crew">No crew to display</div>
-          }        
-        </div>
-      )
-    }
   }
 
   renderEditForm = (navProps, movie) => {
@@ -189,7 +133,9 @@ class Movie extends Component {
             <a className="button edit warning">Edit</a>
             <a className="button delete alert" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</a>
           </div>
-          <Route path={`/movies/${category}/${movie.id}/credits`} render={(navProps) => this.renderCredits(navProps, movie)}/> 
+          <Route path={`/movies/${category}/${movie.id}/credits`} render={() => 
+              <MovieCredits cast={this.state.cast} crew={this.state.crew} fetched={this.state.fetched}/>
+          }/>
           <Route path={`/movies/${category}/${movie.id}/edit`} render={(navProps) => this.renderEditForm(navProps, movie)}/>
         </div>
       )
