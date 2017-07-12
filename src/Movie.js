@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 import './Movie.css'
 import MovieInfo from './MovieInfo'
 import MovieCredits from './MovieCredits'
+import MovieForm from './MovieForm'
 
 class Movie extends Component {
-  
   constructor(props) {
     super(props)
     this.state = {
@@ -72,52 +72,6 @@ class Movie extends Component {
     this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
   }
 
-  renderEditForm = (navProps, movie) => {
-    const category = this.props.category
-    let today = new Date()
-    let dd = today.getDate();
-    let mm = today.getMonth()+1;
-    let yyyy = today.getFullYear();
-  
-    if(dd<10) dd = '0'+dd
-    if(mm<10) mm = '0'+mm
-    today = `${yyyy}-${mm}-${dd}`
-    return (
-      <form onSubmit={(ev) => this.handleSubmit(movie, ev)}>
-        <div className="edit-movie">
-            <div className="category">
-              <input type="radio" name="category" value="completed" defaultChecked={category === 'completed'}/>Completed<br/>
-              <input type="radio" name="category" value="ptw" defaultChecked={category === 'ptw'}/>Plan to Watch<br/>
-              <input type="radio" name="category" value="dropped" defaultChecked={category === 'dropped'}/>Dropped<br/>
-            </div>
-            <div className="others">
-              Date watched: <input type="date" name="date" defaultValue={movie.watched_date} max={today}/>
-              <select name="score" defaultValue={movie.score}>
-                  <option value="">-- Score --</option>
-                  <option value="10">10</option>
-                  <option value="9">9</option>
-                  <option value="8">8</option>
-                  <option value="7">7</option>
-                  <option value="6">6</option>
-                  <option value="5">5</option>
-                  <option value="4">4</option>
-                  <option value="3">3</option>
-                  <option value="2">2</option>
-                  <option value="1">1</option>
-              </select>
-              Rewatches: <input type="text" name="rewatches" defaultValue={movie.rewatches} placeholder="# of rewatches"/>
-            </div>
-          </div>
-          <div className="stacked-for-small radius button-group">
-            <button className="button success" type="submit">Confirm</button>
-            <button className="button alert" type="button" onClick={() => {
-                this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
-              }}>Cancel</button>
-          </div>
-      </form>
-    )
-  }
-
   renderInfo = (navProps) => {
       return (
         <div>
@@ -128,9 +82,11 @@ class Movie extends Component {
             <a className="button delete alert" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</a>
           </div>
           <Route path={`/movies/${this.props.category}/${this.props.movie.id}/credits`} render={() => 
-              <MovieCredits cast={this.state.cast} crew={this.state.crew} fetched={this.state.fetched}/>
+            <MovieCredits cast={this.state.cast} crew={this.state.crew} fetched={this.state.fetched}/>
           }/>
-          <Route path={`/movies/${this.props.category}/${this.props.movie.id}/edit`} render={(navProps) => this.renderEditForm(navProps, this.props.movie)}/>
+          <Route path={`/movies/${this.props.category}/${this.props.movie.id}/edit`} render={(navProps) => 
+            <MovieForm category={this.props.category} movie={this.state.movie} handleSubmit={this.handleSubmit} />
+          }/>
         </div>
       )
   }

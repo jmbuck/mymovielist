@@ -1,32 +1,58 @@
-import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import React from 'react';
 
-import './MovieForm.css'
-import MovieResults from './MovieResults'
+import './MovieForm.css';
 
-class MovieForm extends Component {
-  
-    handleSubmit = (ev) => {
-        ev.preventDefault()
-        const query = ev.target.title.value.replace(/\/| /g, '+')
-        this.props.history.push(`/movies/new/${query}/1`)
-    }
+const MovieForm = ({ category, movie, handleSubmit}) => 
+{
+    let today = new Date()
+    let dd = today.getDate()
+    let mm = today.getMonth()+1
+    let yyyy = today.getFullYear()
+    if(dd < 10) dd = '0' + dd
+    if(mm < 10) mm = '0' + mm
+    today = `${yyyy}-${mm}-${dd}`
 
-    render() {
-        return (
-            <div className="MovieForm">
-                <form className="find-movie" onSubmit={this.handleSubmit}>
-                    <div className="input-group">
-                        <input className="input-group-field" type="text" placeholder="Movie title" name="title"/>
-                        <div className="input-group-button">
-                            <button className="button" type="submit">Find Movie</button>
-                        </div>
+    return (
+        <form className="MovieForm" onSubmit={(ev) => handleSubmit(movie, ev)}>
+            <div className="fields">
+                <div className="category">
+                    <input type="radio" name="category" value="completed" defaultChecked={category === 'completed'}/>Completed<br/>
+                    <input type="radio" name="category" value="ptw" defaultChecked={category === 'ptw'}/>Plan to Watch<br/>
+                    <input type="radio" name="category" value="dropped" defaultChecked={category === 'dropped'}/>Dropped<br/>
+                </div>
+                <div className="optional">
+                    <div className="date">
+                    Date watched: 
+                    <a onClick={() => {
+                        document.querySelector('.optional input').value = today
+                        }}>Insert Today
+                    </a>
+                    <input type="date" name="date" defaultValue={movie.watched_date} max={today}/>
                     </div>
-                </form>
-                <Route path="/movies/new/:query/:page" render={(navProps) => <MovieResults {...this.props} {...navProps} />}/>
+                    <select name="score" defaultValue={movie.score}>
+                        <option value="">-- Score --</option>
+                        <option value="10">10</option>
+                        <option value="9">9</option>
+                        <option value="8">8</option>
+                        <option value="7">7</option>
+                        <option value="6">6</option>
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                    Rewatches: <input type="text" name="rewatches" defaultValue={movie.rewatches} placeholder="# of rewatches"/>
+                </div>
             </div>
-        );
-    }
+            <div className="stacked-for-small radius button-group">
+                <button className="button success" type="submit">Add</button>
+                <button className="button alert" type="button" onClick={() => {
+                    this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
+                }}>Cancel</button>
+            </div>
+        </form>
+    )
 }
 
 export default MovieForm;

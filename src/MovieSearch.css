@@ -1,0 +1,14 @@
+.MovieSearch {
+    width: 100%;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.MovieSearch .find-movie {
+    width: 40%;
+    margin-left: 1rem;
+}
+

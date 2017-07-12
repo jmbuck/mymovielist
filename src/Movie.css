@@ -34,24 +34,3 @@
 .Movie .credits-button {
     margin-bottom: 0.75rem;
 }
-
-.Movie form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.Movie .edit-movie {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.Movie .others a {
-    padding-left: 1rem;
-}
-
-.Movie .category {
-    margin-right: 1rem;
-}
