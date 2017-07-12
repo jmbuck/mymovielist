@@ -1,0 +1,23 @@
+.MovieInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.MovieInfo .main {
+    display: flex;
+    flex-direction: row;
+}
+
+.MovieInfo .main img {
+    width: 200px;
+    height: 100%;
+    margin: 0rem 1rem 1rem 1rem
+}
+
+.MovieInfo .not-poster {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}

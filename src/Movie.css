@@ -22,51 +22,6 @@
     padding-left: 1rem;
 }
 
-.Movie .more-info .main {
-    display: flex;
-    flex-direction: row;
-}
-
-.Movie .more-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.Movie .more-info .main img {
-    width: 200px;
-    height: 100%;
-    margin: 0rem 1rem 1rem 1rem
-}
-
-.Movie .more-info .not-poster {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
-}
-
-.Movie .more-info form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.Movie .more-info .edit-movie {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.Movie .more-info .others a {
-    padding-left: 1rem;
-}
-
-.Movie .more-info .category {
-    margin-right: 1rem;
-}
-
 .Movie .button {
     margin-bottom: 0;
 }
@@ -89,4 +44,26 @@
 
 .Movie .credits ul {
     list-style-type: none;
+}
+
+
+.Movie form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Movie .edit-movie {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.Movie .others a {
+    padding-left: 1rem;
+}
+
+.Movie .category {
+    margin-right: 1rem;
 }
