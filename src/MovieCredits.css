@@ -1,0 +1,10 @@
+.MovieCredits {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+.MovieCredits ul {
+    list-style-type: none;
+}

@@ -119,28 +119,20 @@ class Movie extends Component {
   }
 
   renderInfo = (navProps) => {
-    if(!this.state.fetched) {
-      this.props.getMovieInfo(this.props.movie, navProps.location.pathname, this.updateState)
-    }
-    const category = navProps.match.params.category
-    const movie = this.state.movie
-    if(movie && this.state.fetched) {
       return (
         <div>
-          <MovieInfo {...this.props} {...navProps} movie={this.state.movie}/>
+          <MovieInfo {...this.props} redir={`/movies/${this.props.category}`} fetched={this.state.fetched} movie={this.state.movie} updateState={this.updateState}/>
           <div className="expanded stacked-for-small radius button-group">
             <a className="button credits-button">Cast and crew</a>
             <a className="button edit warning">Edit</a>
             <a className="button delete alert" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</a>
           </div>
-          <Route path={`/movies/${category}/${movie.id}/credits`} render={() => 
+          <Route path={`/movies/${this.props.category}/${this.props.movie.id}/credits`} render={() => 
               <MovieCredits cast={this.state.cast} crew={this.state.crew} fetched={this.state.fetched}/>
           }/>
-          <Route path={`/movies/${category}/${movie.id}/edit`} render={(navProps) => this.renderEditForm(navProps, movie)}/>
+          <Route path={`/movies/${this.props.category}/${this.props.movie.id}/edit`} render={(navProps) => this.renderEditForm(navProps, this.props.movie)}/>
         </div>
       )
-    } 
-    return <Redirect to={`/movies/${category}`} />
   }
 
   render() {

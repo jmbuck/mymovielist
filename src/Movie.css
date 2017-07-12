@@ -35,18 +35,6 @@
     margin-bottom: 0.75rem;
 }
 
-.Movie .credits {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-bottom: 0.75rem;
-}
-
-.Movie .credits ul {
-    list-style-type: none;
-}
-
-
 .Movie form {
     display: flex;
     flex-direction: column;

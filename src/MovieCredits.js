@@ -7,10 +7,10 @@ const MovieCredits = ({cast, crew, fetched}) =>
     const DISPLAYED_CREDITS = 25;
 
     if(!cast.length && !crew.length && fetched) {  
-      return <div className="credits">No credits to display</div>
+      return <div className="MovieCredits">No credits to display</div>
     } else {
       return(
-        <div className="credits">
+        <div className="MovieCredits">
           {
             cast.length 
             ? (<div className="cast"> 

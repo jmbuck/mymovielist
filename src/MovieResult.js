@@ -66,60 +66,57 @@ class MovieResult extends Component {
   }
 
   renderResultInfo = (navProps) => {
-    if(!this.state.fetched) {
-      this.props.getMovieInfo(this.props.movie, navProps.location.pathname, this.updateState)
-    }
-    const movie = this.state.movie
-    if(movie && this.state.fetched) {
-      let today = new Date()
-      let dd = today.getDate();
-      let mm = today.getMonth()+1;
-      let yyyy = today.getFullYear();
-    
-      if(dd<10) dd = '0'+dd
-      if(mm<10) mm = '0'+mm
-      today = `${yyyy}-${mm}-${dd}`
-      
-      return (
-          <div className>
-            <MovieInfo {...this.props} {...navProps} movie={this.state.movie} />
-            <form onSubmit={(ev) => this.handleSubmit(movie, ev)}>
-              <div className="add-movie">
-                  <div className="category">
-                    <input type="radio" name="category" value="completed" defaultChecked/>Completed<br/>
-                    <input type="radio" name="category" value="ptw" />Plan to Watch<br/>
-                    <input type="radio" name="category" value="dropped" />Dropped<br/>
-                  </div>
-                  <div className="others">
-                    <div className="date">
-                      Date watched: 
-                      <a onClick={() => {
-                        document.querySelector('.optional input').value = today
-                        }}>Insert Today
-                      </a>
-                      <input type="date" name="date" max={today}/>
-                    </div>
-                    <select name="score">
-                        <option value="">-- Score --</option>
-                        <option value="10">10</option>
-                        <option value="9">9</option>
-                        <option value="8">8</option>
-                        <option value="7">7</option>
-                        <option value="6">6</option>
-                        <option value="5">5</option>
-                        <option value="4">4</option>
-                        <option value="3">3</option>
-                        <option value="2">2</option>
-                        <option value="1">1</option>
-                    </select>
-                  </div>
+    let today = new Date()
+    let dd = today.getDate();
+    let mm = today.getMonth()+1;
+    let yyyy = today.getFullYear();
+  
+    if(dd<10) dd = '0'+dd
+    if(mm<10) mm = '0'+mm
+    today = `${yyyy}-${mm}-${dd}`
+    return (
+        <div className>
+          <MovieInfo {...this.props} 
+            {...navProps} 
+            redir={`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`} 
+            movie={this.state.movie}
+            fetched={this.state.fetched}
+            updateState={this.updateState} />
+          <form onSubmit={(ev) => this.handleSubmit(this.state.movie, ev)}>
+            <div className="add-movie">
+                <div className="category">
+                  <input type="radio" name="category" value="completed" defaultChecked/>Completed<br/>
+                  <input type="radio" name="category" value="ptw" />Plan to Watch<br/>
+                  <input type="radio" name="category" value="dropped" />Dropped<br/>
                 </div>
-                <button className="button success" type="submit">Add Movie</button>
-            </form>
-          </div>
-      )
-    }
-    return <Redirect to={`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`} />
+                <div className="others">
+                  <div className="date">
+                    Date watched: 
+                    <a onClick={() => {
+                      document.querySelector('.optional input').value = today
+                      }}>Insert Today
+                    </a>
+                    <input type="date" name="date" max={today}/>
+                  </div>
+                  <select name="score">
+                      <option value="">-- Score --</option>
+                      <option value="10">10</option>
+                      <option value="9">9</option>
+                      <option value="8">8</option>
+                      <option value="7">7</option>
+                      <option value="6">6</option>
+                      <option value="5">5</option>
+                      <option value="4">4</option>
+                      <option value="3">3</option>
+                      <option value="2">2</option>
+                      <option value="1">1</option>
+                  </select>
+                </div>
+              </div>
+              <button className="button success" type="submit">Add Movie</button>
+          </form>
+        </div>
+    )
   }
 
   render() {
