@@ -2,7 +2,7 @@ import React from 'react';
 
 import './MovieForm.css';
 
-const MovieForm = ({ category, movie, handleSubmit}) => 
+const MovieForm = ({ category, movie, handleSubmit, edit, redir, history, setAdded}) => 
 {
     let today = new Date()
     let dd = today.getDate()
@@ -13,7 +13,10 @@ const MovieForm = ({ category, movie, handleSubmit}) =>
     today = `${yyyy}-${mm}-${dd}`
 
     return (
-        <form className="MovieForm" onSubmit={(ev) => handleSubmit(movie, ev)}>
+        <form className="MovieForm" onSubmit={(ev) => {
+            handleSubmit(movie, ev, edit, false, redir, category)
+            if(!edit) setAdded(true)
+        }}>
             <div className="fields">
                 <div className="category">
                     <input type="radio" name="category" value="completed" defaultChecked={category === 'completed'}/>Completed<br/>
@@ -48,7 +51,7 @@ const MovieForm = ({ category, movie, handleSubmit}) =>
             <div className="stacked-for-small radius button-group">
                 <button className="button success" type="submit">Add</button>
                 <button className="button alert" type="button" onClick={() => {
-                    this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
+                    history.push(redir)
                 }}>Cancel</button>
             </div>
         </form>

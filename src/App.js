@@ -61,7 +61,7 @@ class App extends Component {
       })
    }
 
-    stopSyncing = () => {
+  stopSyncing = () => {
       if(this.ref) {
         base.removeBinding(this.ref)
       }
@@ -87,7 +87,7 @@ class App extends Component {
     return false;
   }
 
-  getMovieInfo = (movie, path, updateState) => {
+  getMovieInfo = (movie, path, callback) => {
     fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${movieKey}&append_to_response=credits`)
       .then(response => response.json())
       .then(detailedMovie => {
@@ -101,7 +101,7 @@ class App extends Component {
                   crew: detailedMovie.credits.crew, 
                   fetched: true, 
                 }
-        updateState(newState, path)
+        callback(newState, path)
       })
   }
 
@@ -129,32 +129,51 @@ class App extends Component {
     detailedMovie.starring = starring.toString().replace(/,/g, ', ')
   }
 
-  saveMovie = (movie, category) => {
-    const movies = {...this.state.movies}
-    movies[category][`movie-${movie.id}`] = movie
-    this.setState({ movies })
-  }
-  
-  addMovie = (movie, category, copy=false) => {
-    if(!movie.id) {
-      movie.id = Date.now()
-    }
+  handleSubmit = (detailedMovie, ev, edit, quickAdd, path, oldCategory) => {
+    console.log('hello')
+    ev.preventDefault()
+    const newMovie = {}
+    const rewatches = quickAdd ? 0 : ev.target.rewatches.value
+    const category = quickAdd ? 'completed' : ev.target.category.value
+    newMovie.watched_date = quickAdd ? '' : ev.target.date.value
+    newMovie.score = quickAdd ? 0 : ev.target.score.value ? parseInt(ev.target.score.value, 10) : 0
+    newMovie.rewatches = rewatches && !isNaN(rewatches) && rewatches > 0 ? parseInt(rewatches, 10) : 0 
+    newMovie.id = detailedMovie.id
+    newMovie.runtime = detailedMovie.runtime
+    newMovie.title = detailedMovie.title
 
+    this.addMovie(newMovie, category, edit, oldCategory)
+
+    if(path) this.props.history.push(path)
+  } 
+
+  addMovie = (movie, category, edit, oldCategory) => {
     const movies = {...this.state.movies}
         
     if(!movies[category]) {
       movies[category] = {}
     }
-
-    let newMovie = {movie, message: `${movie.title} was successfully added to your ${category === 'ptw' ? 'plan to watch' : category} list!`}
-    if(!this.isDuplicate(newMovie) || copy) {
-        movies[category][`movie-${movie.id}`] = movie
-        this.setState({ movies })
-    }
-    this.setState({ message: newMovie.message })
+    let obj = {movie, message: `${movie.title} was successfully added to your ${category === 'ptw' ? 'plan to watch' : category} list!`}
+    if(edit) {
+      movies[category][`movie-${movie.id}`] = movie
+      if(category !== oldCategory) {
+        this.deleteMovie(movie, oldCategory)
+      }
+    } else {
+      if(!this.isDuplicate(obj)) {
+        if(!movie.runtime) { this.getMovieInfo(movie, '', (data) => {
+          movie.runtime = data.movie.runtime
+          movies[category][`movie-${movie.id}`] = movie
+        })
+        } else  {
+           movies[category][`movie-${movie.id}`] = movie
+        }
+      }
+    }  
+    this.setState({movies, message: obj.message })
   }
 
-  delete = (category, movie) => {
+  deleteMovie = (movie, category) => {
     const movies = {...this.state.movies}
     movies[category][`movie-${movie.id}`] = null;
     this.setState({ movies })
@@ -173,8 +192,9 @@ class App extends Component {
                 saveMovie={this.saveMovie} 
                 addMovie={this.addMovie} 
                 getMovieInfo={this.getMovieInfo}
-                delete={this.delete} 
+                deleteMovie={this.deleteMovie} 
                 signOut={this.signOut}
+                handleSubmit={this.handleSubmit}
               />
             : <Redirect to="/sign-in" />
           }/>
@@ -186,7 +206,7 @@ class App extends Component {
           <Route path="/" render={() => <Redirect to="/sign-in"/>}/>
         </Switch>
       </div>
-    );
+    )
   }
 }
 

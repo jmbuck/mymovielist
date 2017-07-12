@@ -44,34 +44,6 @@ class Movie extends Component {
     this.setState(newState, () => this.props.history.push(path))
   }
 
-  handleSubmit = (movie, ev) => {
-    ev.preventDefault()
-    const category = ev.target.category.value
-    movie.watched_date = ev.target.date.value
-    const score = ev.target.score.value
-    const rewatches = ev.target.rewatches.value
-    score ? movie.score = parseInt(score, 10) : movie.score = 0
-    rewatches && !isNaN(rewatches) && rewatches > 0 ? movie.rewatches = parseInt(rewatches, 10) : movie.rewatches = 0
-
-    if(category !== this.props.category) {
-      this.props.addMovie({ id: movie.id, 
-                             runtime: movie.runtime,
-                             rewatches: movie.rewatches,
-                             score: movie.score,
-                             title: movie.title,
-                             watched_date: movie.watched_date}, category, true)
-      this.props.delete(this.props.category, movie)
-    } else {
-      this.props.saveMovie({ id: movie.id, 
-                             runtime: movie.runtime,
-                             rewatches: movie.rewatches,
-                             score: movie.score,
-                             title: movie.title,
-                             watched_date: movie.watched_date}, category)
-    }
-    this.props.history.push(`/movies/${this.props.category}/${this.props.movie.id}`)
-  }
-
   renderInfo = (navProps) => {
       return (
         <div>
@@ -79,13 +51,20 @@ class Movie extends Component {
           <div className="expanded stacked-for-small radius button-group">
             <a className="button credits-button">Cast and crew</a>
             <a className="button edit warning">Edit</a>
-            <a className="button delete alert" onClick={() => this.props.delete(this.props.category, this.props.movie)}>Delete</a>
+            <a className="button delete alert" onClick={() => this.props.deleteMovie(this.props.movie, this.props.category)}>Delete</a>
           </div>
           <Route path={`/movies/${this.props.category}/${this.props.movie.id}/credits`} render={() => 
             <MovieCredits cast={this.state.cast} crew={this.state.crew} fetched={this.state.fetched}/>
           }/>
           <Route path={`/movies/${this.props.category}/${this.props.movie.id}/edit`} render={(navProps) => 
-            <MovieForm category={this.props.category} movie={this.state.movie} handleSubmit={this.handleSubmit} />
+            <MovieForm 
+              {...navProps}
+              category={this.props.category} 
+              movie={this.state.movie} 
+              handleSubmit={this.props.handleSubmit} 
+              edit={true}
+              redir={`/movies/${this.props.category}/${this.props.movie.id}`}
+             />
           }/>
         </div>
       )

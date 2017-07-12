@@ -27,40 +27,6 @@ class MovieResult extends Component {
         this.props.history.push(path)
       }
   }
-  
-  handleSubmit = (movie, ev, quickAdd=false) => {
-      ev.preventDefault()
-      const newMovie = {}
-      let category;
-      const path = `/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`
-      if(quickAdd) {
-        category = 'completed'
-        newMovie.watched_date = '';
-        newMovie.score = 0;
-        if(!this.state.fetched) {
-          this.props.getMovieInfo(movie, path, (data) => {
-            this.finishAdding(newMovie, data.movie, category)
-          })
-        } else {
-          this.finishAdding(newMovie, movie, category)
-        }
-      } else {
-        category = ev.target.category.value
-        newMovie.watched_date = ev.target.date.value
-        const score = ev.target.score.value
-        score ? newMovie.score = parseInt(score, 10) : newMovie.score = 0      
-        this.finishAdding(newMovie, movie, category)
-        this.props.history.push(`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`)
-      }
-  }
-
-  finishAdding = (newMovie, movie, category) => {
-    newMovie.id = movie.id
-    newMovie.title = movie.title
-    newMovie.runtime = movie.runtime
-    this.props.addMovie(newMovie, category)
-    this.props.setAdded(true)
-  }
 
   updateState = (newState, path) => {
     this.setState(newState, () => this.props.history.push(path))
@@ -74,8 +40,16 @@ class MovieResult extends Component {
             redir={`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`} 
             movie={this.state.movie}
             fetched={this.state.fetched}
-            updateState={this.updateState} />
-          <MovieForm category="completed" movie={this.state.movie} handleSubmit={this.handleSubmit} />
+            updateState={this.updateState} 
+          />
+          <MovieForm 
+            category="completed" 
+            movie={this.state.movie} 
+            handleSubmit={this.props.handleSubmit}
+            edit={false} 
+            redir={`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}`}
+            setAdded={this.props.setAdded}
+          />
         </div>
     )
   }
@@ -88,7 +62,10 @@ class MovieResult extends Component {
             {this.props.movie.title} ({this.props.movie.release_date 
                                       ? (new Date(this.props.movie.release_date)).toLocaleDateString("en-us", {year: 'numeric'})
                                       : 'Unknown'})
-            <button className="button success" type="button" onClick={(ev) => this.handleSubmit(this.props.movie, ev, true)}>Quick add to completed</button>
+            <button className="button success" type="button" onClick={(ev) => {
+                this.props.handleSubmit(this.props.movie, ev, false, true)
+                this.props.setAdded(true)
+            }}>Quick add to completed</button>
           </div>
           <Route 
             path={`/movies/new/${this.props.match.params.query}/${this.props.match.params.page}/${this.props.index}`} 
