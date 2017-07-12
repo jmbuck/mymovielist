@@ -183,7 +183,7 @@ class Movie extends Component {
     if(movie && this.state.fetched) {
       return (
         <div>
-          <MovieInfo {...this.props} {...navProps} fetched={this.state.fetched} movie={this.state.movie}/>
+          <MovieInfo {...this.props} {...navProps} movie={this.state.movie}/>
           <div className="expanded stacked-for-small radius button-group">
             <a className="button credits-button">Cast and crew</a>
             <a className="button edit warning">Edit</a>

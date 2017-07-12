@@ -18,51 +18,27 @@
     align-self: flex-end;
 }
 
-.MovieResult .more-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.MovieResult .more-info .main {
-    display: flex;
-    flex-direction: row;
-}
-
-.MovieResult .more-info .main img {
-    width: 200px;
-    height: 100%;
-    margin: 0rem 1rem 1rem 1rem
-}
-
-.MovieResult .more-info .not-poster {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
-}
-
-.MovieResult .more-info form {
+.MovieResult form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.MovieResult .more-info .add-movie {
+.MovieResult .add-movie {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-.MovieResult .more-info .optional a {
+.MovieResult .others a {
     padding-left: 1rem;
 }
 
-.MovieResult .more-info .category {
+.MovieResult .category {
     margin-right: 1rem;
 }
 
-.MovieResult .more-info .button {
+.MovieResult .button {
     width: 30%;
 }

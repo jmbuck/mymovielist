@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 
 import './MovieResult.css'
+import MovieInfo from './MovieInfo'
 
 class MovieResult extends Component {
 
@@ -70,14 +71,6 @@ class MovieResult extends Component {
     }
     const movie = this.state.movie
     if(movie && this.state.fetched) {
-      const path = `https://image.tmdb.org/t/p/w300${movie.poster_path}`
-      const date = new Date(movie.release_date)
-      const options = {
-          month: "long",
-          year: "numeric",
-          day: "numeric",
-      }
-
       let today = new Date()
       let dd = today.getDate();
       let mm = today.getMonth()+1;
@@ -88,67 +81,8 @@ class MovieResult extends Component {
       today = `${yyyy}-${mm}-${dd}`
       
       return (
-          <div className="more-info">
-            <div className="main">
-              {/*Displays movie poster. If poster does not exist, show "poster does not exist" image*/
-                  movie.poster_path 
-                  ? <img src={path} alt="movie poster" />
-                  : <img src="http://static01.mediaite.com/med/wp-content/uploads/gallery/possilbe-movie-pitches-culled-from-the-mediaite-comments-section/poster-not-available1.jpg" alt="movie poster" />
-              }
-              
-              <div className="not-poster">   
-
-                <div className="credits-preview">
-                  {movie.directors ? <div>Director(s): {movie.directors}</div> : <div></div>}
-                  {movie.screenplay ? <div>Screenplay: {movie.screenplay}</div> : <div></div>}
-                  {movie.writers ? <div>Writer(s): {movie.writers}</div> : <div></div>} 
-                  {movie.starring ? <div>Starring: {movie.starring}</div> : <div></div>} 
-                </div>
-
-                {
-                    movie.overview 
-                    ? <div className="synopsis">Synopsis: {movie.overview}</div>
-                    : <div className="synopsis">No synopsis available.</div>
-                }
-
-                {
-                  movie.tagline
-                  ? <div className="tagline">Tagline: {movie.tagline}</div>
-                  : <div className="tagline"></div>
-                }
-                {
-                  movie.release_date 
-                  ? <div className="date">Released: {date.toLocaleDateString("en-US", options)}</div>
-                  : <div className="date">Unknown release date</div>
-                }
-                
-                {movie.runtime ? <div className="duration">Duration: {movie.runtime} minutes</div> : <div className="duration"></div>}
-                {movie.budget ? <div className="budget">Budget: ${movie.budget.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}</div> : <div className="budget"></div>}
-                {movie.revenue ? <div className="revenue">Revenue: ${movie.revenue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}</div> : <div className="revenue"></div>}
-
-                {
-                  movie.genres 
-                  ? (
-                    <div className="genres">Genres:&nbsp;
-                      {
-                          movie.genres.map((genre, i) => i !== movie.genres.length-1 ? <span key={i}>{genre.name}, </span> : <span key={i}>{genre.name}</span>)
-                      }
-                    </div>)
-                  : <div className="genres"></div>
-                }
-
-                {
-                  movie.rewatches 
-                  ? <div className="rewatches"># of rewatches: {movie.rewatches}</div> : <div className="rewatches"></div>
-                }
-
-                {
-                  movie.imdb_id 
-                  ? <a href={`http://www.imdb.com/title/${movie.imdb_id}/`} target="_blank" rel="noopener noreferrer">IMDB Page</a>
-                  : <div></div>
-                } 
-              </div>
-            </div>
+          <div className>
+            <MovieInfo {...this.props} {...navProps} movie={this.state.movie} />
             <form onSubmit={(ev) => this.handleSubmit(movie, ev)}>
               <div className="add-movie">
                   <div className="category">
@@ -156,7 +90,7 @@ class MovieResult extends Component {
                     <input type="radio" name="category" value="ptw" />Plan to Watch<br/>
                     <input type="radio" name="category" value="dropped" />Dropped<br/>
                   </div>
-                  <div className="optional">
+                  <div className="others">
                     <div className="date">
                       Date watched: 
                       <a onClick={() => {
