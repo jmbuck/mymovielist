@@ -36,15 +36,14 @@ class MovieList extends Component {
   calculateStats = (movies, stats) => {
     const keys = Object.keys(movies)
     stats.total = keys.length
-    let totalTime = 0;
-    let totalWithTime = 0;
-    let totalScore = 0;
-    let totalWithScore = 0;
+    let totalTime = 0, totalBaseTime = 0, totalWithTime = 0,
+        totalScore = 0, totalWithScore = 0
     for(const movieId of keys) {
       const movie = movies[movieId]
       if(movie.runtime) {
         totalTime += movie.runtime * ((movie.rewatches ? parseInt(movie.rewatches, 10) : 0) + 1)
-        totalWithTime += ((movie.rewatches ? parseInt(movie.rewatches, 10) : 0) + 1);
+        totalBaseTime += movie.runtime
+        totalWithTime++
       }
       if(movie.score) {
         totalScore += movie.score
@@ -52,16 +51,18 @@ class MovieList extends Component {
       } 
     }
     stats.totalTime = this.formatDuration(totalTime)
-    stats.meanTime = this.formatDuration(Math.floor(totalTime / totalWithTime))
+    stats.meanTime = this.formatDuration(Math.floor(totalBaseTime / totalWithTime))
     totalWithScore ? stats.meanScore = (totalScore / totalWithScore).toFixed(2) : stats.meanScore = 0
   }
 
   sortMovies = (movies, a, b) => {
+    const titleA = movies[a].title.toUpperCase().replace(/(^(The|An|A) )/i, '')
+    const titleB = movies[b].title.toUpperCase().replace(/(^(The|An|A) )/i, '')
     switch(this.state.sortBy) {
       case 0: //Alphabetical
-        return movies[a].title.toUpperCase() < movies[b].title.toUpperCase() ? -1 : movies[a].title.toUpperCase() > movies[b].title.toUpperCase()
+        return titleA < titleB ? -1 : titleA > titleB
       case 1:
-        return movies[b].title.toUpperCase() < movies[a].title.toUpperCase() ? -1 : movies[b].title.toUpperCase() > movies[a].title.toUpperCase()
+        return titleB < titleA ? -1 : titleB > titleA
       case 2: //Watch date
           //recent first is ascending
           return movies[b].watched_date < movies[a].watched_date ? -1 : movies[b].watched_date > movies[a].watched_date
@@ -73,7 +74,7 @@ class MovieList extends Component {
       case 5:
           return movies[a].score - movies[b].score
       default:
-        return movies[a].title.toUpperCase() < movies[b].title.toUpperCase() ? -1 : movies[a].title.toUpperCase() > movies[b].title.toUpperCase()
+        return titleA < titleB ? -1 : titleA > titleB
     }
   }
 

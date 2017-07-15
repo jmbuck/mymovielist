@@ -49,7 +49,7 @@ const MovieForm = ({ category, movie, handleSubmit, edit, redir, history, setAdd
                 </div>
             </div>
             <div className="stacked-for-small radius button-group">
-                <button className="button success" type="submit">Add</button>
+                <button className="button success" type="submit">{edit ? 'Confirm' : 'Add'}</button>
                 <button className="button alert" type="button" onClick={() => {
                     history.push(redir)
                 }}>Cancel</button>

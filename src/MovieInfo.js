@@ -58,7 +58,7 @@ const MovieInfo = ({movie, fetched, location, updateState, redir, getMovieInfo})
                 {movie.revenue ? <div className="revenue">Revenue: ${movie.revenue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}</div> : <div className="revenue"></div>}
 
                 {
-                movie.genres 
+                movie.genres.length > 0
                 ? (
                     <div className="genres">Genres:&nbsp;
                     {
