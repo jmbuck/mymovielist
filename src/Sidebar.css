@@ -19,6 +19,7 @@
 .Sidebar .button {
     margin-bottom: 0;
     width: 100%;
+    outline: none;
 }
 .Sidebar .active button {
     background-color: #3adb76;

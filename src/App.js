@@ -174,9 +174,15 @@ class App extends Component {
 
   deleteMovie = (movie, category) => {
     const movies = {...this.state.movies}
-    movies[category][`movie-${movie.id}`] = null;
+    movies[category][`movie-${movie.id}`] = null
     this.setState({ movies })
     this.props.history.push(`/movies/${category}`) 
+  }
+
+  updateScore = (movie, category, score) => {
+    const movies = {...this.state.movies}
+    movies[category][`movie-${movie.id}`].score = score ? parseInt(score, 10) : 0
+    this.setState({ movies })
   }
 
   render() {
@@ -192,6 +198,7 @@ class App extends Component {
                 addMovie={this.addMovie} 
                 getMovieInfo={this.getMovieInfo}
                 deleteMovie={this.deleteMovie} 
+                updateScore={this.updateScore}
                 signOut={this.signOut}
                 handleSubmit={this.handleSubmit}
               />

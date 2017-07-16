@@ -7,7 +7,7 @@
     padding-right: 1.5rem;
 }
 
-.MovieList .header li {
+.MovieList .header {
     border: 1px solid black;
     display: flex;
     flex-direction: row;
@@ -17,7 +17,18 @@
     padding-bottom: 0.25rem;
 }
 
-.MovieList .list-title li {
+.MovieList .header div {
+    text-align: center;
+    width: 33%;
+}
+
+.MovieList .header strong {
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+}
+
+.MovieList .list-title {
     border: 1px solid black;
     display: flex;
     flex-direction: column;
@@ -25,7 +36,7 @@
     padding: 0.25rem 1rem 0.25rem 1rem
 }
 
-.MovieList .list-title li .title {
+.MovieList .list-title .title {
     text-align: center;
     font-size: 24px;
     text-transform: uppercase;
@@ -44,26 +55,16 @@
     padding-left: 1rem;
 }
 
-.MovieList .header div {
-    width: 25%;
-}
-
-.MovieList .header strong {
-    cursor: pointer;
-    outline: none;
-    user-select: none;
-}
-
 .MovieList .list {
     list-style-type: none;
     margin-left: 0;
     width: 80%;
 }
 
-.MovieList .list div:nth-child(even) .item {
+.MovieList .list li:nth-child(even) {
     background-color: #e6e6e6;
 }
 
-.MovieList .list div+div .item {
+.MovieList .list li+li {
     border-top: none;
 }

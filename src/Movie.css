@@ -1,4 +1,4 @@
-.Movie .item {
+.Movie {
     border: 1px solid black;
     display: flex;
     flex-direction: column;
@@ -14,12 +14,19 @@
     cursor: pointer;
 }
 
-.Movie .info div {
-    width: 25%;
+.Movie .info .info-item {
+    width: 33%;
+    text-align: center;
 }
 
-.Movie .info .score {
-    padding-left: 1rem;
+.Movie .info .info-item.title {
+    text-align: left;
+    padding-left: 1.5rem;
+}
+
+.Movie .info select {
+    width: 25%;
+    margin-bottom: 0;
 }
 
 .Movie .button {

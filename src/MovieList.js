@@ -88,33 +88,29 @@ class MovieList extends Component {
     return (
       <div className="list-container">
         <ul className="list">
-          <div className="list-title">
-            <li className="item">
-              <div className="title">{category === 'ptw' ? 'plan to watch' : category}</div>
-              <div className="stats">
-                <span>Total movies: {stats.total}</span>
-                <span>Total runtime: {stats.totalTime ? stats.totalTime : '-'}</span>
-                <span>Mean runtime: {stats.meanTime ? stats.meanTime : '-'}</span>
-                {category !== 'ptw' ? <span>Mean score: {stats.meanScore ? stats.meanScore : '-'}</span> : <span></span>}
-              </div>
-            </li>
-          </div>
-          <div className="header">
-            <li className="item">
-              <div onClick={() => {
-                if(this.state.sortBy === 0) this.setState({ sortBy: 1 })
-                else this.setState({ sortBy: 0 })
-                }}><strong>TITLE</strong></div>
-              <div onClick={() => {
-                if(this.state.sortBy === 2) this.setState({ sortBy: 3 })
-                else this.setState({ sortBy: 2 })
-              }}><strong>DATE WATCHED</strong></div>
-              <div onClick={() => {
-                if(this.state.sortBy === 4) this.setState({ sortBy: 5 })
-                else this.setState({ sortBy: 4 })
-              }}><strong>SCORE</strong></div>
-            </li>
-          </div>
+          <li className="list-title">
+            <div className="title">{category === 'ptw' ? 'plan to watch' : category}</div>
+            <div className="stats">
+              <span>Total movies: {stats.total}</span>
+              <span>Total runtime: {stats.totalTime ? stats.totalTime : '-'}</span>
+              <span>Mean runtime: {stats.meanTime ? stats.meanTime : '-'}</span>
+              {category !== 'ptw' ? <span>Mean score: {stats.meanScore ? stats.meanScore : '-'}</span> : <span></span>}
+            </div>
+          </li>
+          <li className="header">
+            <div onClick={() => {
+              if(this.state.sortBy === 0) this.setState({ sortBy: 1 })
+              else this.setState({ sortBy: 0 })
+              }}><strong>TITLE</strong></div>
+            <div onClick={() => {
+              if(this.state.sortBy === 2) this.setState({ sortBy: 3 })
+              else this.setState({ sortBy: 2 })
+            }}><strong>DATE WATCHED</strong></div>
+            <div onClick={() => {
+              if(this.state.sortBy === 4) this.setState({ sortBy: 5 })
+              else this.setState({ sortBy: 4 })
+            }}><strong>SCORE</strong></div>
+          </li>
             {Object.keys(movies).sort((a, b) => this.sortMovies(movies, a, b)).map(movieId => <Movie 
                                                   key={movieId} 
                                                   category={category} 

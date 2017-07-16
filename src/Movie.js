@@ -14,6 +14,8 @@ class Movie extends Component {
       cast: [],
       crew: [],
       fetched: false,
+      dropdownClass: 'hide',
+      scoreClass: '',
     }
   }
 
@@ -37,6 +39,12 @@ class Movie extends Component {
       } else {
         this.props.history.push(`/movies/${this.props.category}`)
       }
+    } else if(ev.target.classList.contains('score'))  { //Score box is clicked
+        if(!this.state.scoreClass) {
+          this.setState({scoreClass: 'hide', dropdownClass: ''}, () => 
+            document.querySelector('.info select').focus()
+          )
+        }
     } 
   }
 
@@ -71,26 +79,45 @@ class Movie extends Component {
   }
 
   render() {
-    const watched_date = new Date(this.props.movie.watched_date)
+    const movie = this.props.movie
+    const watched_date = new Date(movie.watched_date)
     watched_date.setDate(watched_date.getDate()+1)
     return (
-      <div className="Movie">
-        <li className="item" onClick={this.handleClick}>
-            <div className="info">
-              <div className="info-item">{this.props.movie.title}</div>
-              { this.props.movie.watched_date 
-                ? <div className="info-item">{watched_date.toLocaleDateString("en-US", this.options)}</div>
-                : <div className="info-item"></div>
-              } 
-              <div className="info-item score">
-                {this.props.movie.score 
-                  ? `${this.props.movie.score}`
+      <li className="Movie" onClick={this.handleClick}>
+          <div className="info">
+            <span className="info-item title">{movie.title}</span>
+            { movie.watched_date 
+              ? <div className="info-item">{watched_date.toLocaleDateString("en-US", this.options)}</div>
+              : <div className="info-item"></div>
+            } 
+            <div className="info-item">
+              <div className={`score ${this.state.scoreClass}`}>
+                {movie.score 
+                  ? `${movie.score}`
                   : '-'}
               </div>
+              <select name="score" className={this.state.dropdownClass} onChange={(ev) => {
+                  this.props.updateScore(movie, this.props.category, ev.target.value)
+                  this.setState({scoreClass: '', dropdownClass: 'hide'})
+                }} onBlur={() => {
+                  this.setState({scoreClass: '', dropdownClass: 'hide'})
+                }} defaultValue={movie.score}>
+                <option value="">-</option>
+                <option value="10">10</option>
+                <option value="9">9</option>
+                <option value="8">8</option>
+                <option value="7">7</option>
+                <option value="6">6</option>
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+              </select>
             </div>
-            <Route path={`/movies/:category/${this.props.movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
-        </li>
-      </div>
+          </div>
+          <Route path={`/movies/:category/${movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
+      </li>
     )
   }
 }
