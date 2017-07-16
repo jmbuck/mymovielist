@@ -91,11 +91,11 @@ class Movie extends Component {
               : <div className="info-item"></div>
             } 
             <div className="info-item">
-              <div className={`score ${this.state.scoreClass}`}>
+              <span className={`score ${this.state.scoreClass}`}>
                 {movie.score 
                   ? `${movie.score}`
                   : '-'}
-              </div>
+              </span>
               <select name="score" className={this.state.dropdownClass} onChange={(ev) => {
                   this.props.updateScore(movie, this.props.category, ev.target.value)
                   this.setState({scoreClass: '', dropdownClass: 'hide'})

@@ -4,7 +4,16 @@ import './MovieCredits.css';
 
 const MovieCredits = ({cast, crew, fetched}) => 
 {
+    const image = document.querySelector('.person-image')
     const DISPLAYED_CREDITS = 25;
+    
+    const showPicture = (person) => {
+      console.log(person)
+      if(person.profile_path) {
+        image.src=`https://image.tmdb.org/t/p/w300${person.profile_path}`
+        image.style.display = 'block'
+      }
+    }
 
     if(!cast.length && !crew.length && fetched) {  
       return <div className="MovieCredits">No credits to display</div>
@@ -19,7 +28,11 @@ const MovieCredits = ({cast, crew, fetched}) =>
                   {cast.slice(0, DISPLAYED_CREDITS).map((member, i) => {
                     if(member) {
                       return (
-                        <li key={i}>
+                        <li onMouseOver={() => {
+                            showPicture(member)
+                          } 
+                        } onMouseOut={() => {image.style.display = 'none'}}
+                        key={i}>
                           {member.name} as {member.character}
                         </li>
                       )
@@ -40,7 +53,11 @@ const MovieCredits = ({cast, crew, fetched}) =>
                   {crew.slice(0, DISPLAYED_CREDITS).map((member, i) => {
                     if(member) {
                       return (
-                        <li key={i}>
+                        <li onMouseOver={() => {
+                            showPicture(member)
+                          } 
+                        } onMouseOut={() => {image.style.display = 'none'}}
+                        key={i}>
                           {member.job} - {member.name}
                         </li>
                       )

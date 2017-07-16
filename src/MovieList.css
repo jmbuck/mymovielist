@@ -1,8 +1,10 @@
 .MovieList {
     width: 100%;
+    display: flex;
 }
 
 .MovieList .list-container {
+    width: 75%;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 }
@@ -58,13 +60,23 @@
 .MovieList .list {
     list-style-type: none;
     margin-left: 0;
-    width: 80%;
 }
 
-.MovieList .list li:nth-child(even) {
+.MovieList .list>li:nth-child(even) {
     background-color: #e6e6e6;
 }
 
 .MovieList .list li+li {
     border-top: none;
+}
+
+.MovieList .person-image {
+    position: fixed;
+    margin-left: 70%;
+    margin-top: 20vh;
+    margin-bottom: 20vh;
+    height: 60vh;
+    width: 20%;
+    border: 1px black solid;
+    display: none;
 }
