@@ -56,8 +56,8 @@ class MovieList extends Component {
   }
 
   sortMovies = (movies, a, b) => {
-    const titleA = movies[a].title.toUpperCase().replace(/(^(The|An|A) )/i, '')
-    const titleB = movies[b].title.toUpperCase().replace(/(^(The|An|A) )/i, '')
+    const titleA = movies[a].title.toUpperCase().replace(/^(The|An|A) /i, '')
+    const titleB = movies[b].title.toUpperCase().replace(/^(The|An|A) /i, '')
     switch(this.state.sortBy) {
       case 0: //Alphabetical
         return titleA < titleB ? -1 : titleA > titleB

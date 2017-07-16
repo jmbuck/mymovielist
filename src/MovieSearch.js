@@ -17,7 +17,7 @@ class MovieSearch extends Component {
             <div className="MovieSearch">
                 <form className="find-movie" onSubmit={this.handleSubmit}>
                     <div className="input-group">
-                        <input className="input-group-field" type="text" placeholder="Movie title" name="title"/>
+                        <input className="input-group-field" type="text" required autoFocus placeholder="Movie title" name="title"/>
                         <div className="input-group-button">
                             <button className="button" type="submit">Find Movie</button>
                         </div>

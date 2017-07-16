@@ -1,9 +1,30 @@
 .Sidebar {
     width: 7rem;
-    background-color: #141D4A;
-    padding: 0.5rem 0; 
+    box-sizing: border-box;
+    background-color: #141D4A; 
     display: flex; 
     flex-direction: column; 
     justify-content: space-between;
     align-items: center;
+}
+.Sidebar .nav-wrapper {
+    width: inherit;
+}
+.Sidebar .nav {
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+}
+.Sidebar .button {
+    margin-bottom: 0;
+    width: 100%;
+}
+.Sidebar .active button {
+    background-color: #3adb76;
+    color: #0a0a0a;
+}
+
+.Sidebar .active button:hover {
+    background-color: #22bb5b;
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 import './MovieResults.css'
 import { movieKey } from './keys'
@@ -56,14 +57,6 @@ class MovieResults extends Component {
         this.setState({added: value})
     }
 
-    moveBack = () => {
-        this.props.history.push(`/movies/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)-1}`)
-    }
-
-    moveForward = () => {
-        this.props.history.push(`/movies/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)+1}`)
-    }
-
     render() {
         return (
             <div className="MovieResults">
@@ -88,11 +81,19 @@ class MovieResults extends Component {
                 <div className="page">
                     {(() => {
                         if(this.props.match.params.page > 1) {
-                            return <button className="button warning" type="button" onClick={this.moveBack}>{'<'}</button>
+                            return (
+                                <Link to={`/movies/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)-1}`}>
+                                    <button className="button warning" type="button">{'<'}</button>
+                                </Link>
+                            )
                     }})()}
                     {(() => {  
                         if(this.props.match.params.page < this.state.totalPages) {
-                            return <button className="button warning" type="button" onClick={this.moveForward}>></button>
+                            return (
+                                <Link to={`/movies/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)+1}`}>
+                                    <button className="button warning" type="button">></button>
+                                </Link>
+                            )
                     }})()}
                     <span className="page-number">Page {this.props.match.params.page} of {this.state.totalPages}</span>
                 </div>

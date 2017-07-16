@@ -130,7 +130,6 @@ class App extends Component {
   }
 
   handleSubmit = (detailedMovie, ev, edit, quickAdd, path, oldCategory) => {
-    console.log('hello')
     ev.preventDefault()
     const newMovie = {}
     const rewatches = quickAdd ? 0 : ev.target.rewatches.value
