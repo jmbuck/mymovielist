@@ -100,6 +100,7 @@ class App extends Component {
                   cast: detailedMovie.credits.cast, 
                   crew: detailedMovie.credits.crew, 
                   fetched: true, 
+                  expandIcon: 'fa-minus-square',
                 }
         callback(newState, path)
       })
@@ -209,7 +210,7 @@ class App extends Component {
             ? <SignIn />
             : <Redirect to="/movies"/>
           }/>
-          <Route path="/" render={() => <Redirect to="/sign-in"/>}/>
+          <Route path="/" render={() => <Redirect to="/movies"/>}/>
         </Switch>
       </div>
     )

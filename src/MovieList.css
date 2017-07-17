@@ -30,6 +30,10 @@
     user-select: none;
 }
 
+.MovieList .header strong:hover {
+    text-decoration: underline;
+}
+
 .MovieList .list-title {
     border: 1px solid black;
     display: flex;

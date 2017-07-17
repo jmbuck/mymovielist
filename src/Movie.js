@@ -16,6 +16,7 @@ class Movie extends Component {
       fetched: false,
       dropdownClass: 'hide',
       scoreClass: '',
+      expandIcon: 'fa-plus-square'
     }
   }
 
@@ -33,16 +34,18 @@ class Movie extends Component {
       } else {
         this.props.history.push(path)
       }
-    } else if(ev.target.classList.contains('info') || ev.target.classList.contains('info-item')) { //Title bar of movie is clicked
+    } else if(ev.target.classList.contains('title') || ev.target.classList.contains('fa')) { //Title of movie is clicked
       if(this.props.location.pathname !== path) {
         this.props.getMovieInfo(this.props.movie, path, this.updateState)
       } else {
+        this.setState({expandIcon: 'fa-plus-square'})
         this.props.history.push(`/movies/${this.props.category}`)
       }
     } else if(ev.target.classList.contains('score'))  { //Score box is clicked
+        const score = ev.target
         if(!this.state.scoreClass) {
           this.setState({scoreClass: 'hide', dropdownClass: ''}, () => 
-            document.querySelector('.info select').focus()
+            score.nextSibling.focus()
           )
         }
     } 
@@ -85,7 +88,7 @@ class Movie extends Component {
     return (
       <li className="Movie" onClick={this.handleClick}>
           <div className="info">
-            <span className="info-item title">{movie.title}</span>
+            <span className="info-item title"><i className={`fa ${this.state.expandIcon}`}></i> {movie.title}</span>
             { movie.watched_date 
               ? <div className="info-item">{watched_date.toLocaleDateString("en-US", this.options)}</div>
               : <div className="info-item"></div>

@@ -83,7 +83,7 @@ class MovieResults extends Component {
                         if(this.props.match.params.page > 1) {
                             return (
                                 <Link to={`/movies/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)-1}`}>
-                                    <button className="button warning" type="button">{'<'}</button>
+                                    <button className="button warning" type="button"><i className="fa fa-arrow-left"></i></button>
                                 </Link>
                             )
                     }})()}
@@ -91,7 +91,7 @@ class MovieResults extends Component {
                         if(this.props.match.params.page < this.state.totalPages) {
                             return (
                                 <Link to={`/movies/new/${this.props.match.params.query}/${parseInt(this.props.match.params.page, 10)+1}`}>
-                                    <button className="button warning" type="button">></button>
+                                    <button className="button warning" type="button"><i className="fa fa-arrow-right"></i></button>
                                 </Link>
                             )
                     }})()}

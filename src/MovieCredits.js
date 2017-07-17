@@ -8,7 +8,6 @@ const MovieCredits = ({cast, crew, fetched}) =>
     const DISPLAYED_CREDITS = 25;
     
     const showPicture = (person) => {
-      console.log(person)
       if(person.profile_path) {
         image.src=`https://image.tmdb.org/t/p/w300${person.profile_path}`
         image.style.display = 'block'

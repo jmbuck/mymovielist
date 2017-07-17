@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom'
 
 import './MovieList.css';
 import Movie from './Movie'
@@ -121,7 +120,7 @@ class MovieList extends Component {
                                                   />)}
           </ul>
         </div>
-        <img className="person-image"/>
+        <img className="person-image" alt="person"/>
       </div>
     )
   }
