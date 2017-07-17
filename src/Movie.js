@@ -35,7 +35,7 @@ class Movie extends Component {
         this.props.history.push(path)
       }
     } else if(ev.target.classList.contains('title') || ev.target.classList.contains('fa')) { //Title of movie is clicked
-      if(this.props.location.pathname !== path) {
+      if(this.props.location.pathname === `/movies/${this.props.category}`) {
         this.props.getMovieInfo(this.props.movie, path, this.updateState)
       } else {
         this.setState({expandIcon: 'fa-plus-square'})

@@ -165,7 +165,6 @@ class App extends Component {
   }
 
   deleteMovie = (movie, category) => {
-    console.log('made it here')
     const movies = {...this.state.movies}
     movies[category][`movie-${movie.id}`] = null
     this.setState({ movies })
