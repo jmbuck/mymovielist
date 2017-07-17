@@ -55,16 +55,20 @@ class MovieResult extends Component {
   }
 
   render() {
+    const movie = this.props.movie
     return (
       <div className="MovieResult">
         <li className="item">
           <div className="info" onClick={this.handleClick}>
-            {this.props.movie.title} ({this.props.movie.release_date 
-                                      ? (new Date(this.props.movie.release_date)).toLocaleDateString("en-us", {year: 'numeric'})
+            {this.props.movie.title} ({movie.release_date 
+                                      ? (new Date(movie.release_date)).toLocaleDateString("en-us", {year: 'numeric'})
                                       : 'Unknown'})
             <button className="button success" type="button" onClick={(ev) => {
-                this.props.handleSubmit(this.props.movie, ev, false, true)
+              this.props.getMovieInfo(movie, '', (data) => {
+                movie.runtime = data.movie.runtime
+                this.props.handleSubmit(movie, ev, false, true)
                 this.props.setAdded(true)
+              })
             }}>Quick add to completed</button>
           </div>
           <Route 

@@ -131,7 +131,7 @@ class App extends Component {
   }
 
   handleSubmit = (detailedMovie, ev, edit, quickAdd, path, oldCategory) => {
-    ev.preventDefault()
+    if(!quickAdd) ev.preventDefault()
     const newMovie = {}
     const rewatches = quickAdd ? 0 : ev.target.rewatches.value
     const category = quickAdd ? 'completed' : ev.target.category.value
@@ -149,7 +149,6 @@ class App extends Component {
 
   addMovie = (movie, category, edit, oldCategory) => {
     const movies = {...this.state.movies}
-        
     if(!movies[category]) {
       movies[category] = {}
     }
@@ -159,21 +158,14 @@ class App extends Component {
       if(category !== oldCategory) {
         this.deleteMovie(movie, oldCategory)
       }
-    } else {
-      if(!this.isDuplicate(obj)) {
-        if(!movie.runtime) { this.getMovieInfo(movie, '', (data) => {
-          movie.runtime = data.movie.runtime
-          movies[category][`movie-${movie.id}`] = movie
-        })
-        } else  {
-           movies[category][`movie-${movie.id}`] = movie
-        }
-      }
+    } else if(!this.isDuplicate(obj)) {
+        movies[category][`movie-${movie.id}`] = movie
     }  
     this.setState({movies, message: obj.message })
   }
 
   deleteMovie = (movie, category) => {
+    console.log('made it here')
     const movies = {...this.state.movies}
     movies[category][`movie-${movie.id}`] = null
     this.setState({ movies })

@@ -27,7 +27,12 @@ const MovieInfo = ({movie, fetched, location, updateState, redir, getMovieInfo})
                 : <img src="http://static01.mediaite.com/med/wp-content/uploads/gallery/possilbe-movie-pitches-culled-from-the-mediaite-comments-section/poster-not-available1.jpg" alt="movie poster" />
             }
             
-            <div className="not-poster">   
+            <div className="not-poster"> 
+                
+                {
+                movie.rewatches 
+                ? <div className="rewatches"># of rewatches: {movie.rewatches}</div> : <div className="rewatches"></div>
+                }  
 
                 <div className="credits-preview">
                 {movie.directors ? <div>Director(s): {movie.directors}</div> : <div></div>}
@@ -66,11 +71,6 @@ const MovieInfo = ({movie, fetched, location, updateState, redir, getMovieInfo})
                     }
                     </div>)
                 : <div className="genres"></div>
-                }
-
-                {
-                movie.rewatches 
-                ? <div className="rewatches"># of rewatches: {movie.rewatches}</div> : <div className="rewatches"></div>
                 }
 
                 {
