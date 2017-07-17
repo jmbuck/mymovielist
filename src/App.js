@@ -210,7 +210,11 @@ class App extends Component {
             ? <SignIn />
             : <Redirect to="/movies"/>
           }/>
-          <Route path="/" render={() => <Redirect to="/movies"/>}/>
+          <Route path="/" render={() => 
+            !this.signedIn() 
+            ? <SignIn />
+            : <Redirect to="/movies"/>
+          }/>
         </Switch>
       </div>
     )
