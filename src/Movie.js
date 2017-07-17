@@ -16,7 +16,6 @@ class Movie extends Component {
       fetched: false,
       dropdownClass: 'hide',
       scoreClass: '',
-      expandIcon: 'fa-plus-square'
     }
   }
 
@@ -35,10 +34,9 @@ class Movie extends Component {
         this.props.history.push(path)
       }
     } else if(ev.target.classList.contains('title') || ev.target.classList.contains('fa')) { //Title of movie is clicked
-      if(this.props.location.pathname === `/movies/${this.props.category}`) {
+      if(!this.props.location.pathname.includes(this.props.movie.id)) {
         this.props.getMovieInfo(this.props.movie, path, this.updateState)
       } else {
-        this.setState({expandIcon: 'fa-plus-square'})
         this.props.history.push(`/movies/${this.props.category}`)
       }
     } else if(ev.target.classList.contains('score'))  { //Score box is clicked
@@ -85,10 +83,14 @@ class Movie extends Component {
     const movie = this.props.movie
     const watched_date = new Date(movie.watched_date)
     watched_date.setDate(watched_date.getDate()+1)
+    const path = this.props.location.pathname
+    const expanded = path.includes(movie.id)
     return (
       <li className="Movie" onClick={this.handleClick}>
           <div className="info">
-            <span className="info-item title"><i className={`fa ${this.state.expandIcon}`}></i> {movie.title}</span>
+            <span className="info-item title">
+              <i className={`fa ${expanded ? 'fa-minus-square' : 'fa-plus-square'}`}></i> {movie.title}
+            </span>
             { movie.watched_date 
               ? <div className="info-item">{watched_date.toLocaleDateString("en-US", this.options)}</div>
               : <div className="info-item"></div>

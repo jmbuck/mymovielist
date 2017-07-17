@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 
 import './MovieInfo.css';
 
-const MovieInfo = ({movie, fetched, location, updateState, redir, getMovieInfo}) => 
+const MovieInfo = ({movie, fetched, location, updateState, redir, getMovieInfo, formatDuration}) => 
 {
     if(!fetched) {
       getMovieInfo(movie, location.pathname, updateState)
@@ -58,7 +58,7 @@ const MovieInfo = ({movie, fetched, location, updateState, redir, getMovieInfo})
                 : <div className="date">Unknown release date</div>
                 }
                 
-                {movie.runtime ? <div className="duration">Duration: {movie.runtime} minutes</div> : <div className="duration"></div>}
+                {movie.runtime ? <div className="duration">Duration: {formatDuration(movie.runtime)}</div> : <div className="duration"></div>}
                 {movie.budget ? <div className="budget">Budget: ${movie.budget.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}</div> : <div className="budget"></div>}
                 {movie.revenue ? <div className="revenue">Revenue: ${movie.revenue.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}</div> : <div className="revenue"></div>}
 

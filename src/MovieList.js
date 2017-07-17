@@ -14,24 +14,6 @@ class MovieList extends Component {
     }
   }
 
-  formatDuration = (totalTime) => {
-    let minutes = totalTime
-    let hours = Math.floor(minutes / 60) 
-    minutes = minutes % 60
-    let days = Math.floor(hours / 24) 
-    hours = hours % 24
-    let output = ""
-    if(days) output += `${days} ${days === 1 ? 'day' : 'days'}, `
-    if(hours) output += `${hours} ${hours === 1 ? 'hour' : 'hours'}, `
-    if(minutes) {
-      output += `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`
-    } else {
-      //Cut out ending comma and space
-      output = output.substr(0, output.length-2)
-    }
-    return output
-  }
-
   calculateStats = (movies, stats) => {
     const keys = Object.keys(movies)
     stats.total = keys.length
@@ -51,8 +33,8 @@ class MovieList extends Component {
         } 
       }
     }
-    stats.totalTime = this.formatDuration(totalTime)
-    stats.meanTime = this.formatDuration(Math.floor(totalBaseTime / totalWithTime))
+    stats.totalTime = this.props.formatDuration(totalTime)
+    stats.meanTime = this.props.formatDuration(Math.floor(totalBaseTime / totalWithTime))
     totalWithScore ? stats.meanScore = (totalScore / totalWithScore).toFixed(2) : stats.meanScore = 0
   }
 
@@ -65,12 +47,12 @@ class MovieList extends Component {
       case 1:
         return titleB < titleA ? -1 : titleB > titleA
       case 2: //Watch date
-          //recent first is ascending
+          //recent first
           return movies[b].watched_date < movies[a].watched_date ? -1 : movies[b].watched_date > movies[a].watched_date
       case 3:
           return movies[a].watched_date < movies[b].watched_date ? -1 : movies[a].watched_date > movies[b].watched_date
       case 4: //Score
-          //highest first is ascending
+          //highest first
           return movies[b].score - movies[a].score
       case 5:
           return movies[a].score - movies[b].score
@@ -104,15 +86,15 @@ class MovieList extends Component {
               <div onClick={() => {
                 if(this.state.sortBy === 0) this.setState({ sortBy: 1 })
                 else this.setState({ sortBy: 0 })
-                }}><strong>TITLE</strong></div>
+                }}><strong title="Sort alphabetically">TITLE</strong></div>
               <div onClick={() => {
                 if(this.state.sortBy === 2) this.setState({ sortBy: 3 })
                 else this.setState({ sortBy: 2 })
-              }}><strong>DATE WATCHED</strong></div>
+              }}><strong title="Sort by date">DATE WATCHED</strong></div>
               <div onClick={() => {
                 if(this.state.sortBy === 4) this.setState({ sortBy: 5 })
                 else this.setState({ sortBy: 4 })
-              }}><strong>SCORE</strong></div>
+              }}><strong title="Sort by score">SCORE</strong></div>
             </li>
               {Object.keys(movies).sort((a, b) => this.sortMovies(movies, a, b)).map(movieId => <Movie 
                                                     key={movieId} 
