@@ -19,26 +19,8 @@ class Movie extends Component {
     }
   }
 
-  handleClick = (ev) => {
-    const path = `/movies/${this.props.category}/${this.props.movie.id}`
-    if(ev.target.classList.contains('title') || ev.target.classList.contains('fa')) { //Title of movie is clicked
-      if(!this.props.location.pathname.includes(this.props.movie.id)) {
-        this.props.getMovieInfo(this.props.movie, path, this.updateState)
-      } else {
-        this.props.history.push(`/movies/${this.props.category}`)
-      }
-    } else if(ev.target.classList.contains('score'))  { //Score box is clicked
-      const score = ev.target
-      if(!this.state.scoreClass) {
-        this.setState({scoreClass: 'hide', dropdownClass: ''}, () => 
-          score.nextSibling.focus()
-        )
-      }
-    } 
-  }
-
-  updateState = (newState, path) => {
-    this.setState(newState, () => this.props.history.push(path))
+  updateState = (newState) => {
+    this.setState(newState)
   }
 
   renderInfo = (navProps, path) => {
@@ -80,17 +62,24 @@ class Movie extends Component {
     const path = this.props.location.pathname
     const expanded = path.includes(movie.id)
     return (
-      <li className="Movie" onClick={this.handleClick}>
+      <li className="Movie">
           <div className="info">
-            <span className="info-item title">
+            <Link className="info-item title" to={expanded ? `/movies/${this.props.category}` : `/movies/${this.props.category}/${movie.id}`}>
               <i className={`fa ${expanded ? 'fa-minus-square' : 'fa-plus-square'}`}></i> {movie.title}
-            </span>
+            </Link>
             { movie.watched_date 
               ? <div className="info-item">{watched_date.toLocaleDateString("en-US", this.options)}</div>
               : <div className="info-item"></div>
             } 
             <div className="info-item">
-              <span className={`score ${this.state.scoreClass}`}>
+              <span className={`score ${this.state.scoreClass}`} onClick={(ev) => {
+                  ev.persist()
+                  if(!this.state.scoreClass) {
+                    this.setState({scoreClass: 'hide', dropdownClass: ''}, () => 
+                      ev.target.nextSibling.focus()
+                    )
+                  }
+                } }>
                 {movie.score 
                   ? `${movie.score}`
                   : '-'}
@@ -115,7 +104,11 @@ class Movie extends Component {
               </select>
             </div>
           </div>
-          <Route path={`/movies/:category/${movie.id}`} render={(navProps) => this.renderInfo(navProps, path)}/>
+          <Route path={`/movies/:category/${movie.id}`} render={(navProps) => {
+            this.props.getMovieInfo(movie, '', this.updateState) 
+            if(this.state.fetched) return this.renderInfo(navProps, path)
+            return <div></div>
+          }}/>
       </li>
     )
   }

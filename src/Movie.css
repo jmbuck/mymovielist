@@ -16,6 +16,7 @@
 .Movie .info .info-item {
     width: 33%;
     text-align: center;
+    color: black;
 }
 
 .Movie .info .info-item.title {
