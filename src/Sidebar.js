@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import './Sidebar.css';
+import './Sidebar.css'
 import SignOut from './SignOut'
 
 const Sidebar = ({ signOut }) => 
@@ -29,4 +29,4 @@ const Sidebar = ({ signOut }) =>
     )
 }
 
-export default Sidebar;
+export default Sidebar

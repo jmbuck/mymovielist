@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import './MovieList.css';
+import './MovieList.css'
 import Movie from './Movie'
 
 class MovieList extends Component {
@@ -29,7 +29,7 @@ class MovieList extends Component {
         }
         if(movie.score) {
           totalScore += movie.score
-          totalWithScore++;
+          totalWithScore++
         } 
       }
     }
@@ -110,4 +110,4 @@ class MovieList extends Component {
   }
 }
 
-export default MovieList;
+export default MovieList

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 
 import './Movie.css'
 import MovieInfo from './MovieInfo'
@@ -21,31 +21,19 @@ class Movie extends Component {
 
   handleClick = (ev) => {
     const path = `/movies/${this.props.category}/${this.props.movie.id}`
-    if(ev.target.classList.contains('credits-button')) { //Credits button is clicked
-      if (this.props.location.pathname !== path+'/credits') {
-        this.props.history.push(path+'/credits')
-      } else {
-        this.props.history.push(path)
-      }
-    } else if(ev.target.classList.contains('edit')) { //Edit button is clicked
-      if (this.props.location.pathname !== path+'/edit') {
-        this.props.history.push(path+'/edit')
-      } else {
-        this.props.history.push(path)
-      }
-    } else if(ev.target.classList.contains('title') || ev.target.classList.contains('fa')) { //Title of movie is clicked
+    if(ev.target.classList.contains('title') || ev.target.classList.contains('fa')) { //Title of movie is clicked
       if(!this.props.location.pathname.includes(this.props.movie.id)) {
         this.props.getMovieInfo(this.props.movie, path, this.updateState)
       } else {
         this.props.history.push(`/movies/${this.props.category}`)
       }
     } else if(ev.target.classList.contains('score'))  { //Score box is clicked
-        const score = ev.target
-        if(!this.state.scoreClass) {
-          this.setState({scoreClass: 'hide', dropdownClass: ''}, () => 
-            score.nextSibling.focus()
-          )
-        }
+      const score = ev.target
+      if(!this.state.scoreClass) {
+        this.setState({scoreClass: 'hide', dropdownClass: ''}, () => 
+          score.nextSibling.focus()
+        )
+      }
     } 
   }
 
@@ -53,13 +41,19 @@ class Movie extends Component {
     this.setState(newState, () => this.props.history.push(path))
   }
 
-  renderInfo = (navProps) => {
+  renderInfo = (navProps, path) => {
       return (
         <div>
           <MovieInfo {...this.props} redir={`/movies/${this.props.category}`} fetched={this.state.fetched} movie={this.state.movie} updateState={this.updateState}/>
           <div className="expanded stacked-for-small radius button-group">
-            <a className="button credits-button">Cast and crew</a>
-            <a className="button edit warning">Edit</a>
+            <Link className="button credits-button" to={path.includes('credits') 
+                ? `/movies/${this.props.category}/${this.props.movie.id}`
+                : path+'/credits' }>Cast and crew
+            </Link>
+            <Link className="button edit warning" to={path.includes('edit') 
+                ? `/movies/${this.props.category}/${this.props.movie.id}`
+                : path+'/edit' }>Edit
+            </Link>
             <a className="button delete alert" onClick={() => this.props.deleteMovie(this.props.movie, this.props.category)}>Delete</a>
           </div>
           <Route path={`/movies/${this.props.category}/${this.props.movie.id}/credits`} render={() => 
@@ -121,10 +115,10 @@ class Movie extends Component {
               </select>
             </div>
           </div>
-          <Route path={`/movies/:category/${movie.id}`} render={(navProps) => this.renderInfo(navProps)}/>
+          <Route path={`/movies/:category/${movie.id}`} render={(navProps) => this.renderInfo(navProps, path)}/>
       </li>
     )
   }
 }
 
-export default Movie;
+export default Movie

@@ -74,7 +74,7 @@ class MovieResults extends Component {
                                                                     results={this.state.results}
                                                                     movie={result} 
                                                                     setAdded={this.setAdded} 
-                                                                    {...this.props} 
+                                                                    {...this.props}
                                                 />)}</ul>
                     : this.state.fetched ? <div>No results found.</div> : <div>Searching...</div>
                 }
@@ -98,8 +98,8 @@ class MovieResults extends Component {
                     <span className="page-number">Page {this.props.match.params.page} of {this.state.totalPages}</span>
                 </div>
             </div>
-        );
+        )
     }
 }
 
-export default MovieResults;
+export default MovieResults

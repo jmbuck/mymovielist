@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import './Main.css';
+import './Main.css'
 import Sidebar from './Sidebar'
 import MovieSearch from './MovieSearch'
 import MovieList from './MovieList'
@@ -28,4 +28,4 @@ const Main = (props) =>
     )
 }
 
-export default Main;
+export default Main

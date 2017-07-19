@@ -17,7 +17,7 @@ const db = database(app)
 
 export const movieKey = "YOUR TMDB API KEY HERE"
 
-export const auth = app.auth();
+export const auth = app.auth()
 export const googleProvider = new firebase.auth.GoogleAuthProvider()
 export const facebookProvider = new firebase.auth.FacebookAuthProvider()
 

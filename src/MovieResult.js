@@ -43,6 +43,7 @@ class MovieResult extends Component {
             updateState={this.updateState} 
           />
           <MovieForm 
+            {...navProps}
             category="completed" 
             movie={this.state.movie} 
             handleSubmit={this.props.handleSubmit}
@@ -81,4 +82,4 @@ class MovieResult extends Component {
   }
 }
 
-export default MovieResult;
+export default MovieResult

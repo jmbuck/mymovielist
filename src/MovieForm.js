@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-import './MovieForm.css';
+import './MovieForm.css'
 
 const MovieForm = ({ category, movie, handleSubmit, edit, redir, history, setAdded}) => 
 {
@@ -58,4 +58,4 @@ const MovieForm = ({ category, movie, handleSubmit, edit, redir, history, setAdd
     )
 }
 
-export default MovieForm;
+export default MovieForm

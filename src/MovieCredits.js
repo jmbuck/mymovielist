@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-import './MovieCredits.css';
+import './MovieCredits.css'
 
 const MovieCredits = ({cast, crew, fetched}) => 
 {
     const image = document.querySelector('.person-image')
-    const DISPLAYED_CREDITS = 25;
+    const DISPLAYED_CREDITS = 25
     
     const showPicture = (person) => {
       if(person.profile_path) {
@@ -73,4 +73,4 @@ const MovieCredits = ({cast, crew, fetched}) =>
     } 
 }
 
-export default MovieCredits;
+export default MovieCredits

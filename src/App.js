@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
 
-import './App.css';
+import './App.css'
 import Main from './Main'
 import SignIn from './SignIn'
 import base, { auth, movieKey } from './keys'
@@ -94,15 +94,15 @@ class App extends Component {
     const movies = {...this.state.movies}
     if(movies['completed'] && movies['completed'][`movie-${input.movie.id}`]) {
       input.message = `${input.movie.title} already exists in your completed list!`
-      return true;
+      return true
     } else if(movies['ptw'] && movies['ptw'][`movie-${input.movie.id}`]) {
       input.message = `${input.movie.title} already exists in your plan to watch list!`
-      return true;
+      return true
     } else if(movies['dropped'] && movies['dropped'][`movie-${input.movie.id}`]) {
       input.message = `${input.movie.title} already exists in your dropped list!`
-      return true;
+      return true
     } 
-    return false;
+    return false
   }
 
   getMovieInfo = (movie, path, callback) => {
@@ -230,4 +230,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
